@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Pricing - Choose the plan that fits your exam preparation needs">
+    <title>Pricing - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <style>
+        /* Pricing Page Specific Styles */
+        .pricing-main {
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .pricing-header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .pricing-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-cards {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            align-items: start;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .pricing-card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .plan-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .plan-description {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .pricing-card-price {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .price-amount {
+            font-size: 56px;
+            font-weight: 800;
+            color: #1e293b;
+        }
+
+        .price-amount .currency {
+            font-size: 24px;
+            vertical-align: top;
+            margin-right: 4px;
+        }
+
+        .price-period {
+            font-size: 16px;
+            color: #64748b;
+        }
+
+        .price-savings {
+            text-align: center;
+            color: #10b981;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+            background: #d1fae5;
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Free Plan Specific */
+        .pricing-card-free {
+            border-color: #e2e8f0;
+        }
+
+        .pricing-card-free .plan-name {
+            color: #059669;
+        }
+
+        .pricing-card-free .price-amount {
+            color: #059669;
+        }
+
+        /* Pro Plan Specific */
+        .pricing-card-premium {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #fff 0%, #f0f7ff 100%);
+        }
+
+        .pricing-card-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .pricing-card-premium .price-amount {
+            color: #3b82f6;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 15px;
+            color: #334155;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .feature-item:not(.feature-disabled) .feature-icon {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .feature-disabled .feature-icon {
+            background: #f1f5f9;
+            color: #94a3b8;
+        }
+
+        .feature-disabled {
+            color: #94a3b8;
+        }
+
+        .feature-item strong {
+            color: #1e293b;
+        }
+
+        .pricing-card-action {
+            margin-top: 30px;
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Launch Offer Banner */
+        .launch-offer {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.6); }
+        }
+
+        .launch-offer h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .launch-offer p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Feature Comparison */
+        .comparison-section {
+            padding: 60px 20px;
+            background: #f8fafc;
+        }
+
+        .comparison-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .comparison-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 40px;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 100px 100px;
+            padding: 16px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            align-items: center;
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-header {
+            background: #f1f5f9;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .comparison-feature {
+            color: #334155;
+        }
+
+        .comparison-check {
+            color: #059669;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .comparison-cross {
+            color: #94a3b8;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        /* FAQ Section */
+        .pricing-faq {
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 40px;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Usage Counter Styles */
+        .usage-counter {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .usage-counter h4 {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .usage-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .usage-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .usage-bar-fill.warning {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .usage-bar-fill.danger {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .usage-text {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .usage-text strong {
+            color: #1e293b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .pricing-title {
+                font-size: 32px;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-row {
+                grid-template-columns: 1fr 60px 60px;
+                font-size: 14px;
+                padding: 12px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="14" fill="#3B82F6"/>
+                        <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="logo-text">EduCracker</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="pricing.html" class="active">Pricing</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-ghost">Sign In</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pricing-main">
+        <!-- Header -->
+        <section class="pricing-header">
+            <div class="container">
+                <span class="pricing-badge">🎯 Simple Pricing</span>
+                <h1 class="pricing-title">Choose Your Plan</h1>
+                <p class="pricing-subtitle">Start free and upgrade when you're ready. No hidden fees, cancel anytime. Get unlimited access to AI-powered exam prep!</p>
+            </div>
+        </section>
+
+        <!-- Launch Offer -->
+        <div class="pricing-cards">
+            <div class="container">
+                <div class="launch-offer">
+                    <h3>🎉 Launch Offer - Limited Time!</h3>
+                    <p>Get Pro Plan at just <strong>₹199/year</strong> (69% OFF) - Save ₹300!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Cards -->
+        <section class="pricing-cards">
+            <div class="container">
+                <div class="pricing-grid">
+                    <!-- Free Plan -->
+                    <div class="pricing-card pricing-card-free">
+                        <div class="pricing-card-header">
+                            <h3 class="plan-name">🟢 Free Plan</h3>
+                            <p class="plan-description">Perfect for getting started</p>
+                        </div>
+                        <div class="pricing-card-price">
+                            <span class="price-amount">₹0</span>
+                            <span class="price-period">/forever</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>2 AI Notes</strong> per day</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>1 Mock Test</strong> per day</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>Basic dashboard</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>Basic AI analysis</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>Community leaderboard</span>
+                            </li>
+                            <li class="feature-item feature-disabled">
+                                <span class="feature-icon">✕</span>
+                                <span>Important Question Predictor</span>
+                            </li>
+                            <li class="feature-item feature-disabled">
+                                <span class="feature-icon">✕</span>
+                                <span>Exam Booster Mode</span>
+                            </li>
+                            <li class="feature-item feature-disabled">
+                                <span class="feature-icon">✕</span>
+                                <span>Advanced analytics</span>
+                            </li>
+                            <li class="feature-item feature-disabled">
+                                <span class="feature-icon">✕</span>
+                                <span>Priority AI generation</span>
+                            </li>
+                        </ul>
+                        <div class="pricing-card-action">
+                            <button class="btn btn-outline btn-full" disabled>Current Plan</button>
+                        </div>
+                        <div class="usage-counter">
+                            <h4>📊 Today's Usage</h4>
+                            <div class="usage-bar">
+                                <div class="usage-bar-fill" style="width: 0%"></div>
+                            </div>
+                            <p class="usage-text">AI Notes: <strong>0/2</strong> used today</p>
+                        </div>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="pricing-card pricing-card-premium">
+                        <div class="recommended-badge">Best Value</div>
+                        <div class="pricing-card-header">
+                            <h3 class="plan-name">🔥 Pro Plan</h3>
+                            <p class="plan-description">For serious exam crackers</p>
+                        </div>
+                        <div class="pricing-card-price">
+                            <span class="price-amount"><span class="currency">₹</span>299</span>
+                            <span class="price-period">/year</span>
+                        </div>
+                        <p class="price-savings">⭐ Save 49% vs monthly</p>
+                        <ul class="plan-features">
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>Unlimited</strong> AI Notes</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>Unlimited</strong> Mock Tests</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>AI Important Questions</strong> Predictor</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>Exam Booster Mode</strong></span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>Advanced</strong> analytics</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>Priority fast AI generation</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>All future features included</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>24/7 Priority support</span>
+                            </li>
+                        </ul>
+                        <div class="pricing-card-action">
+                            <button class="btn btn-primary btn-full btn-upgrade" data-plan="pro">Upgrade to Pro</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Comparison -->
+        <section class="comparison-section">
+            <div class="comparison-container">
+                <h2 class="comparison-title">📋 Free vs Pro Comparison</h2>
+                <div class="comparison-table">
+                    <div class="comparison-row comparison-header">
+                        <div>Feature</div>
+                        <div style="text-align: center">Free</div>
+                        <div style="text-align: center">Pro</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-feature">AI Notes Generation</div>
+                        <div class="comparison-check">2/day</div>
+                        <div class="comparison-check">∞ Unlimited</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Mock Tests</div>
+                        <div class="comparison-check">1/day</div>
+                        <div class="comparison-check">∞ Unlimited</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-feature">AI Important Questions</div>
+                        <div class="comparison-cross">✕</div>
+                        <div class="comparison-check">✓</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Exam Booster Mode</div>
+                        <div class="comparison-cross">✕</div>
+                        <div class="comparison-check">✓</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Advanced Analytics</div>
+                        <div class="comparison-cross">✕</div>
+                        <div class="comparison-check">✓</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-feature">Priority AI Speed</div>
+                        <div class="comparison-cross">✕</div>
+                        <div class="comparison-check">✓</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="pricing-faq">
+            <div class="container">
+                <h2 class="faq-title">❓ Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4 class="faq-question">What's included in the Free plan?</h4>
+                        <p class="faq-answer">Free users get 2 AI notes and 1 mock test per day, basic dashboard, and access to the community leaderboard. Perfect for trying out the platform!</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4 class="faq-question">Can I cancel anytime?</h4>
+                        <p class="faq-answer">Yes! You can cancel your Pro subscription anytime. You'll continue to have access until your billing period ends, and your data is never deleted.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4 class="faq-question">What payment methods do you accept?</h4>
+                        <p class="faq-answer">We accept all major credit/debit cards, UPI, Paytm, Google Pay, and PhonePe. All payments are secured with encrypted transactions.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4 class="faq-question">Is there a refund policy?</h4>
+                        <p class="faq-answer">We offer a 7-day money-back guarantee. If you're not satisfied, contact support for a full refund - no questions asked!</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4 class="faq-question">What happens when my free limit ends?</h4>
+                        <p class="faq-answer">When you reach your daily limit, you'll see an upgrade prompt. Your data is always saved - just upgrade to continue without interruptions!</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4 class="faq-question">Do you offer student discounts?</h4>
+                        <p class="faq-answer">Yes! Contact us with your student ID for a special 50% discount on Pro plan. We believe education should be accessible to everyone.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <span class="logo-icon">
+                            <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16" cy="16" r="14" fill="#3B82F6"/>
+                                <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <span class="logo-text">EduCracker</span>
+                    </a>
+                    <p class="footer-tagline">Your AI-powered exam preparation companion.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Product</h4>
+                        <a href="pricing.html">Pricing</a>
+                        <a href="#features">Features</a>
+                        <a href="#">Mock Tests</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="#">About</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Contact</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                        <a href="#">Refund Policy</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EduCracker. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Upgrade Confirmation Modal -->
+    <div class="modal" id="upgradeModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">🚀 Upgrade to Pro</h3>
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="upgrade-summary">
+                    <div class="upgrade-plan-icon">🔥</div>
+                    <h4>Pro Plan</h4>
+                    <p class="upgrade-price">₹299/year</p>
+                    <p style="color: #f59e0b; font-weight: 600; margin-bottom: 16px;">⭐ Launch Offer - Save 49%!</p>
+                    <ul class="upgrade-features-list">
+                        <li>✓ Unlimited AI Notes</li>
+                        <li>✓ Unlimited Mock Tests</li>
+                        <li>✓ AI Important Questions</li>
+                        <li>✓ Exam Booster Mode</li>
+                        <li>✓ Advanced Analytics</li>
+                        <li>✓ Priority Support</li>
+                    </ul>
+                </div>
+                <div class="upgrade-note">
+                    <p>🎉 This is a demo. No actual payment will be processed.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="cancelUpgrade">Cancel</button>
+                <button class="btn btn-primary" id="confirmUpgrade">Confirm Upgrade</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Lock Modal -->
+    <div class="modal" id="featureLockModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-sm">
+            <div class="modal-header">
+                <h3 class="modal-title">🔒 Premium Feature</h3>
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="feature-lock-content">
+                    <div class="feature-lock-icon">🔒</div>
+                    <h4>Unlock This Feature</h4>
+                    <p>This feature is available exclusively for Pro members.</p>
+                    <ul class="premium-benefits">
+                        <li>✓ Unlimited AI Notes</li>
+                        <li>✓ Unlimited Mock Tests</li>
+                        <li>✓ Important Questions Predictor</li>
+                        <li>✓ Exam Booster Mode</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="closeFeatureLock">Maybe Later</button>
+                <a href="pricing.html" class="btn btn-primary">Upgrade Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Usage Limit Reached Modal -->
+    <div class="modal" id="limitReachedModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-sm">
+            <div class="modal-header">
+                <h3 class="modal-title">⏳ Daily Limit Reached</h3>
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="feature-lock-content" style="text-align: center;">
+                    <div class="feature-lock-icon" style="font-size: 48px;">📊</div>
+                    <h4>You've used your free AI notes for today!</h4>
+                    <p style="margin: 16px 0;">Upgrade to Pro for unlimited access and never stop learning.</p>
+                    <div style="background: #f0f9ff; padding: 16px; border-radius: 12px; margin: 20px 0;">
+                        <p style="font-size: 24px; font-weight: 700; color: #3b82f6; margin: 0;">₹299/year</p>
+                        <p style="color: #10b981; font-weight: 600; margin: 4px 0 0;">Save 49% vs monthly</p>
+                    </div>
+                    <ul class="premium-benefits" style="text-align: left;">
+                        <li>✓ Unlimited AI Notes</li>
+                        <li>✓ Unlimited Mock Tests</li>
+                        <li>✓ Priority AI Speed</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="closeLimitReached">Maybe Later</button>
+                <a href="pricing.html" class="btn btn-primary">🚀 Upgrade to Pro</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/premium.js"></script>
+    <script>
+        // Handle upgrade button click
+        document.querySelectorAll('.btn-upgrade').forEach(button => {
+            button.addEventListener('click', function() {
+                const upgradeModal = document.getElementById('upgradeModal');
+                if (upgradeModal) {
+                    upgradeModal.classList.add('active');
+                }
+            });
+        });
+
+        // Handle confirm upgrade
+        document.getElementById('confirmUpgrade')?.addEventListener('click', function() {
+            // Simulate upgrade success
+            alert('🎉 Demo: Upgrade successful! In production, this would process payment.');
+            const upgradeModal = document.getElementById('upgradeModal');
+            if (upgradeModal) {
+                upgradeModal.classList.remove('active');
+            }
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

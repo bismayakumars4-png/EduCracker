@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test Result - EduCracker">
+    <title>Test Result - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Test Result Page Styles */
+        .result-page {
+            min-height: 100vh;
+            background: #f8fafc;
+        }
+        
+        .result-header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            color: #3b82f6;
+        }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #1e293b;
+        }
+        
+        .result-main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .result-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .score-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .score-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .test-badge-large {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .test-title-result {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .score-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .score-circle {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+        
+        .score-ring {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        
+        .score-ring-bg {
+            stroke: #e2e8f0;
+        }
+        
+        .score-ring-fill {
+            stroke: #10b981;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        
+        .score-value-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .score-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .score-label {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .score-grade {
+            text-align: center;
+        }
+        
+        .grade-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .grade-value {
+            display: block;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+        
+        .grade-text {
+            font-size: 1rem;
+            color: #64748b;
+        }
+        
+        .result-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        
+        .result-stat-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .correct-icon {
+            background: #d1fae5;
+            color: #059669;
+        }
+        
+        .incorrect-icon {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .skipped-icon {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+        
+        .time-icon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        
+        .stat-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .analysis-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+        
+        .analysis-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 1rem;
+        }
+        
+        .analysis-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: none;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .analysis-tab.active {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+        }
+        
+        .btn-outline:hover {
+            background: #f8fafc;
+        }
+        
+        .comparison-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+        
+        .comparison-content {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .comparison-stat {
+            text-align: center;
+        }
+        
+        .comparison-label {
+            display: block;
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .comparison-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .comparison-text {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .comparison-divider {
+            width: 1px;
+            background: #e2e8f0;
+        }
+        
+        /* Save Status Card */
+        .save-status-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            transition: all 0.2s;
+        }
+        
+        .save-status-card.success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border: 1px solid #6ee7b7;
+        }
+        
+        .save-status-card.warning {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 1px solid #fcd34d;
+        }
+        
+        .save-status-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+        
+        .save-status-card.success .save-status-icon {
+            background: #059669;
+            color: white;
+        }
+        
+        .save-status-card.warning .save-status-icon {
+            background: #d97706;
+            color: white;
+        }
+        
+        .save-status-text {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .save-status-card.success .save-status-text {
+            color: #065f46;
+        }
+        
+        .save-status-card.warning .save-status-text {
+            color: #92400e;
+        }
+        
+        @media (max-width: 768px) {
+            .result-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .score-display {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .result-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+    <div class="result-page">
+        <!-- Header -->
+        <header class="result-header">
+            <div class="header-content">
+                <a href="tests.html" class="back-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15,18 9,12 15,6"/>
+                    </svg>
+                    Back to Tests
+                </a>
+                <div class="header-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="14" fill="#3B82F6"/>
+                        <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>EduCracker</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="result-main">
+            <div class="result-container" id="resultContainer">
+                <!-- Score Card -->
+                <div class="score-card">
+                    <div class="score-header">
+                        <div class="test-badge-large" id="resultTestType">JEE Main</div>
+                        <h1 class="test-title-result" id="resultTestName">Mathematics - Algebra Complete</h1>
+                    </div>
+                    
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <svg class="score-ring" viewBox="0 0 120 120">
+                                <circle class="score-ring-bg" cx="60" cy="60" r="54" fill="none" stroke="#e5e7eb" stroke-width="8"/>
+                                <circle class="score-ring-fill" cx="60" cy="60" r="54" fill="none" stroke="#10B981" stroke-width="8" stroke-linecap="round" stroke-dasharray="339.29" stroke-dashoffset="67.86" transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <div class="score-value-container">
+                                <span class="score-value" id="scorePercentage">85%</span>
+                                <span class="score-label">Score</span>
+                            </div>
+                        </div>
+                        <div class="score-grade">
+                            <span class="grade-label">Grade</span>
+                            <span class="grade-value" id="scoreGrade">A+</span>
+                            <span class="grade-text" id="scoreGradeText">Excellent!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="result-stats-grid">
+                    <div class="result-stat-card">
+                        <div class="stat-icon correct-icon">✓</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="correctCount">23</span>
+                            <span class="stat-label">Correct</span>
+                        </div>
+                    </div>
+                    <div class="result-stat-card">
+                        <div class="stat-icon incorrect-icon">✕</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="incorrectCount">5</span>
+                            <span class="stat-label">Incorrect</span>
+                        </div>
+                    </div>
+                    <div class="result-stat-card">
+                        <div class="stat-icon skipped-icon">−</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="skippedCount">2</span>
+                            <span class="stat-label">Skipped</span>
+                        </div>
+                    </div>
+                    <div class="result-stat-card">
+                        <div class="stat-icon time-icon">⏱️</div>
+                        <div class="stat-details">
+                            <span class="stat-value" id="timeTaken">47:30</span>
+                            <span class="stat-label">Time Taken</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Analysis -->
+                <div class="analysis-section">
+                    <h2 class="section-title">Detailed Analysis</h2>
+                    
+                    <div class="analysis-tabs">
+                        <button class="analysis-tab active" data-tab="questions">Question Analysis</button>
+                        <button class="analysis-tab" data-tab="solutions">Solutions</button>
+                        <button class="analysis-tab" data-tab="breakdown">Topic Breakdown</button>
+                    </div>
+
+                    <!-- Questions Tab -->
+                    <div class="tab-content active" id="questionsTab">
+                        <div class="questions-list" id="questionsList">
+                            <!-- Questions will be loaded dynamically -->
+                        </div>
+
+                        <button class="btn btn-secondary btn-full mt-4" id="viewAllQuestionsBtn">View All 30 Questions</button>
+                    </div>
+
+                    <!-- Solutions Tab -->
+                    <div class="tab-content" id="solutionsTab">
+                        <div class="solutions-list">
+                            <div class="solution-item">
+                                <div class="solution-header">
+                                    <span class="solution-num">Q1</span>
+                                    <span class="solution-topic">Algebra - Quadratic Equations</span>
+                                </div>
+                                <div class="solution-content">
+                                    <p><strong>Given:</strong> x² + 5x + 6 = 0</p>
+                                    <p><strong>Solution:</strong></p>
+                                    <p>Factorizing: (x + 2)(x + 3) = 0</p>
+                                    <p>So x = -2 or x = -3</p>
+                                    <p>Taking x = -2:</p>
+                                    <p>x² + 1/x² = 4 + 1/4 = 4 + 0.25 = 4.25</p>
+                                    <p>Wait, let me recalculate using the identity:</p>
+                                    <p>(x + 1/x)² = x² + 2 + 1/x²</p>
+                                    <p>From the quadratic: x + 2 + 3/x = 0</p>
+                                    <p>This gives x + 1/x = -5/2</p>
+                                    <p>Then x² + 1/x² = (x + 1/x)² - 2 = 25/4 - 2 = 25/4 - 8/4 = 17/4 = 4.25</p>
+                                    <p class="final-answer"><strong>Answer: 14 (Option A)</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic Breakdown Tab -->
+                    <div class="tab-content" id="breakdownTab">
+                        <div class="topic-breakdown" id="topicBreakdown">
+                            <!-- Topics will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="result-actions">
+                    <a href="tests.html" class="btn btn-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15,18 9,12 15,6"/>
+                        </svg>
+                        More Tests
+                    </a>
+                    <button class="btn btn-outline" onclick="window.print()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6,9 6,2 18,2 18,9"/>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                            <rect x="6" y="14" width="12" height="8"/>
+                        </svg>
+                        Download PDF
+                    </button>
+                    <button class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7,10 12,15 17,10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Share Result
+                    </button>
+                </div>
+
+                <!-- Comparison Card -->
+                <div class="comparison-card">
+                    <h3>How You Compare</h3>
+                    <div class="comparison-content">
+                        <div class="comparison-stat">
+                            <span class="comparison-label">Percentile</span>
+                            <span class="comparison-value">92<sup>nd</sup></span>
+                            <span class="comparison-text">of all test takers</span>
+                        </div>
+                        <div class="comparison-divider"></div>
+                        <div class="comparison-stat">
+                            <span class="comparison-label">Avg. Score</span>
+                            <span class="comparison-value">72%</span>
+                            <span class="comparison-text">yours is 13% higher</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Status Note -->
+                <div class="save-status-card" id="saveStatusCard">
+                    <div class="save-status-icon" id="saveStatusIcon">✓</div>
+                    <div class="save-status-text" id="saveStatusText">Result saved to your account</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/test-engine.js"></script>
+    <script>
+        // Tab switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.analysis-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Show selected tab content
+                    document.getElementById(tabId + 'Tab').classList.add('active');
+                });
+            });
+            
+            // Show save status based on backend save result
+            const saveStatusCard = document.getElementById('saveStatusCard');
+            const saveStatusIcon = document.getElementById('saveStatusIcon');
+            const saveStatusText = document.getElementById('saveStatusText');
+            
+            if (saveStatusCard && saveStatusIcon && saveStatusText) {
+                // Check if result was saved to backend
+                const savedToBackend = sessionStorage.getItem('resultSavedToBackend');
+                
+                if (savedToBackend === 'true') {
+                    // Backend save success
+                    saveStatusCard.className = 'save-status-card success';
+                    saveStatusIcon.textContent = '✓';
+                    saveStatusText.textContent = 'Result saved to your account';
+                } else {
+                    // Backend save failed, using localStorage fallback
+                    saveStatusCard.className = 'save-status-card warning';
+                    saveStatusIcon.textContent = '⚠';
+                    saveStatusText.textContent = 'Result saved locally (offline mode)';
+                }
+                
+                // Clear the session storage
+                sessionStorage.removeItem('resultSavedToBackend');
+            }
+        });
+    </script>
+</body>
+</html>

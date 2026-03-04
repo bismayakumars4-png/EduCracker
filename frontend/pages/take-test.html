@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Take Test - EduCracker">
+    <title>Take Test - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body class="test-taking-mode">
+    <!-- Warning Banner -->
+    <div class="test-warning-banner" id="warningBanner">
+        <div class="warning-content">
+            <span class="warning-icon">⚠️</span>
+            <span>Do not refresh or close this page. Your test will be auto-submitted.</span>
+            <button class="warning-close" onclick="closeWarning()">×</button>
+        </div>
+    </div>
+
+    <!-- Test Header -->
+    <header class="test-header">
+        <div class="test-header-left">
+            <div class="test-info-mini">
+                <span class="test-badge-header">JEE Main</span>
+                <h1 class="test-name">Mathematics - Algebra Complete</h1>
+            </div>
+        </div>
+        
+        <div class="test-header-center">
+            <div class="timer-container" id="timerContainer">
+                <div class="timer-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                </div>
+                <div class="timer-display" id="timerDisplay">
+                    <span class="timer-label">Time Left</span>
+                    <span class="timer-value" id="timerValue">60:00</span>
+                </div>
+                <div class="timer-progress" id="timerProgress">
+                    <svg class="timer-ring" width="60" height="60">
+                        <circle class="timer-ring-bg" cx="30" cy="30" r="26" fill="none" stroke="#e5e7eb" stroke-width="4"/>
+                        <circle class="timer-ring-progress" cx="30" cy="30" r="26" fill="none" stroke="#3B82F6" stroke-width="4" stroke-linecap="round" stroke-dasharray="163.36" stroke-dashoffset="0" transform="rotate(-90 30 30)"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-header-right">
+            <button class="header-btn" id="submitTestBtn" onclick="showSubmitModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22,4 12,14.01 9,11.01"/>
+                </svg>
+                Submit Test
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Test Content -->
+    <div class="test-main-container">
+        <!-- Question Panel -->
+        <main class="question-panel">
+            <!-- Question Header -->
+            <div class="question-header">
+                <div class="question-nav-info">
+                    <span class="question-number">Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">30</span></span>
+                    <span class="question-type-badge" id="questionType">Multiple Choice</span>
+                </div>
+                <div class="question-actions">
+                    <button class="action-btn" id="markReviewBtn" onclick="toggleMarkReview()" title="Mark for Review">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>Mark for Review</span>
+                    </button>
+                    <button class="action-btn" id="clearResponseBtn" onclick="clearResponse()" title="Clear Response">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3,6 5,6 21,6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        <span>Clear</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question Content -->
+            <div class="question-content" id="questionContent">
+                <div class="question-text" id="questionText">
+                    <p>If x² + 5x + 6 = 0, then find the value of x² + 1/x².</p>
+                </div>
+                
+                <!-- Options for MCQ -->
+                <div class="options-container" id="optionsContainer">
+                    <div class="option-item" data-option="A" onclick="selectOption('A')">
+                        <span class="option-letter">A</span>
+                        <span class="option-text">14</span>
+                    </div>
+                    <div class="option-item" data-option="B" onclick="selectOption('B')">
+                        <span class="option-letter">B</span>
+                        <span class="option-text">17</span>
+                    </div>
+                    <div class="option-item" data-option="C" onclick="selectOption('C')">
+                        <span class="option-letter">C</span>
+                        <span class="option-text">19</span>
+                    </div>
+                    <div class="option-item" data-option="D" onclick="selectOption('D')">
+                        <span class="option-letter">D</span>
+                        <span class="option-text">21</span>
+                    </div>
+                </div>
+
+                <!-- Numerical Input (hidden by default) -->
+                <div class="numerical-container" id="numericalContainer" style="display: none;">
+                    <label for="numericalAnswer">Enter your answer:</label>
+                    <input type="number" id="numericalAnswer" class="numerical-input" placeholder="Enter numerical answer">
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="question-navigation">
+                <button class="nav-btn nav-btn-prev" id="prevBtn" onclick="prevQuestion()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15,18 9,12 15,6"/>
+                    </svg>
+                    Previous
+                </button>
+                
+                <button class="nav-btn nav-btn-next" id="nextBtn" onclick="nextQuestion()">
+                    Next
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9,18 15,12 9,6"/>
+                    </svg>
+                </button>
+            </div>
+        </main>
+
+        <!-- Question Palette Sidebar -->
+        <aside class="question-palette">
+            <div class="palette-header">
+                <h3>Question Palette</h3>
+                <div class="palette-legend">
+                    <div class="legend-item">
+                        <span class="legend-color answered"></span>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color unanswered"></span>
+                        <span>Not Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color review"></span>
+                        <span>Review</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color current"></span>
+                        <span>Current</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="palette-grid" id="paletteGrid">
+                <!-- Questions will be generated by JavaScript -->
+            </div>
+
+            <div class="palette-footer">
+                <div class="palette-stats">
+                    <div class="stat-row">
+                        <span>Answered:</span>
+                        <span id="answeredCount">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Not Answered:</span>
+                        <span id="notAnsweredCount">30</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>For Review:</span>
+                        <span id="reviewCount">0</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-full" onclick="showSubmitModal()">
+                    Submit Test
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Submit Confirmation Modal -->
+    <div class="modal-overlay" id="submitModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Submit Test?</h2>
+                <button class="modal-close" onclick="closeSubmitModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="submit-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Questions Answered</span>
+                        <span class="summary-value" id="summaryAnswered">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Questions Not Answered</span>
+                        <span class="summary-value" id="summaryNotAnswered">30</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Marked for Review</span>
+                        <span class="summary-value" id="summaryReview">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Time Remaining</span>
+                        <span class="summary-value" id="summaryTime">60:00</span>
+                    </div>
+                </div>
+                <p class="submit-warning">Are you sure you want to submit? You cannot change your answers after submission.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeSubmitModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitTest()">Submit & View Results</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time's Up Modal -->
+    <div class="modal-overlay" id="timeUpModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Time's Up!</h2>
+            </div>
+            <div class="modal-body">
+                <div class="times-up-content">
+                    <div class="times-up-icon">⏰</div>
+                    <p>Your test time has ended. Your responses will be auto-submitted.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="viewResults()">View Results</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/test-engine.js"></script>
+</body>
+</html>

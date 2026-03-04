@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Sample Papers - Practice with model papers">
+    <title>Sample Papers - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Page-specific styles */
+        .samples-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .samples-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .samples-header h1 {
+            font-size: 2rem;
+            color: #1E40AF;
+            margin-bottom: 10px;
+        }
+        
+        .samples-header p {
+            color: #6B7280;
+        }
+        
+        /* Selection Panel */
+        .selection-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+        
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .btn-load {
+            background: #3B82F6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .btn-load:hover {
+            background: #1E40AF;
+        }
+        
+        /* Paper Cards */
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .paper-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .paper-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .paper-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .paper-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .badge-model {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+        
+        .badge-sample {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .badge-important {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .paper-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+        
+        .paper-description {
+            color: #6B7280;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        
+        .paper-meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #6B7280;
+            font-size: 0.85rem;
+        }
+        
+        .paper-sections {
+            background: #F9FAFB;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .section-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .section-item:last-child {
+            border-bottom: none;
+        }
+        
+        .section-name {
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .section-detail {
+            color: #6B7280;
+            font-size: 0.85rem;
+        }
+        
+        .paper-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn-start {
+            flex: 1;
+            background: #3B82F6;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-start:hover {
+            background: #1E40AF;
+        }
+        
+        .btn-preview {
+            background: #6B7280;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        /* Filter */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .filter-btn.active {
+            background: #3B82F6;
+            color: white;
+            border-color: #3B82F6;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6B7280;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">EduCracker</span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Learn</span>
+                    <a href="dashboard.html" class="nav-item">
+                        <span class="nav-item-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="tests.html" class="nav-item">
+                        <span class="nav-item-icon">📝</span>
+                        My Tests
+                    </a>
+                    <a href="syllabus.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Syllabus
+                    </a>
+                    <a href="formulas.html" class="nav-item">
+                        <span class="nav-item-icon">🔢</span>
+                        Formulas
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Practice</span>
+                    <a href="previous-papers.html" class="nav-item">
+                        <span class="nav-item-icon">📜</span>
+                        PYQs
+                    </a>
+                    <a href="sample-papers.html" class="nav-item active">
+                        <span class="nav-item-icon">📄</span>
+                        Sample Papers
+                    </a>
+                    <a href="flashcards.html" class="nav-item">
+                        <span class="nav-item-icon">🎴</span>
+                        Flashcards
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Progress</span>
+                    <a href="results.html" class="nav-item">
+                        <span class="nav-item-icon">📋</span>
+                        Results
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1 class="page-title">Sample Papers</h1>
+            </header>
+
+            <div class="samples-container">
+                <!-- Header -->
+                <div class="samples-header">
+                    <h1>📄 Model Sample Papers</h1>
+                    <p>Practice with carefully designed sample papers that match your exam pattern</p>
+                </div>
+
+                <!-- Selection Panel -->
+                <div class="selection-panel">
+                    <div class="selection-grid">
+                        <div class="form-group">
+                            <label for="boardSelect">Board</label>
+                            <select id="boardSelect">
+                                <option value="">Select Board</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="classSelect">Class</label>
+                            <select id="classSelect">
+                                <option value="">Select Class</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subjectSelect">Subject</label>
+                            <select id="subjectSelect" disabled>
+                                <option value="">Select Board First</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn-load" id="loadBtn">Find Papers</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="filter-bar" id="filterBar" style="display: none;">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="model">Model Papers</button>
+                    <button class="filter-btn" data-filter="important">Important</button>
+                    <button class="filter-btn" data-filter="practice">Practice</button>
+                </div>
+
+                <!-- Loading -->
+                <div id="loadingState" class="loading" style="display: none;">
+                    <p>Loading sample papers...</p>
+                </div>
+
+                <!-- Papers Grid -->
+                <div id="papersGrid" class="papers-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state">
+                    <h3>📄 Select Your Board & Class</h3>
+                    <p>Choose your educational board and class to view sample papers</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mock sample papers data
+        const samplePapers = [
+            {
+                id: 1,
+                title: "CBSE Class 12 Physics - Model Paper 2024",
+                board: "CBSE",
+                subject: "Physics",
+                classLevel: 12,
+                type: "model",
+                description: "Complete model paper with all chapters covered. Includes section A, B, C as per CBSE pattern.",
+                duration: 180,
+                totalMarks: 70,
+                sections: [
+                    { name: "Section A", questions: "20 (1 mark each)", marks: "20" },
+                    { name: "Section B", questions: "7 (2 marks each)", marks: "14" },
+                    { name: "Section C", questions: "7 (3 marks each)", marks: "21" },
+                    { name: "Section D", questions: "3 (5 marks each)", marks: "15" }
+                ]
+            },
+            {
+                id: 2,
+                title: "CBSE Class 12 Physics - Important Questions",
+                board: "CBSE",
+                subject: "Physics",
+                classLevel: 12,
+                type: "important",
+                description: "Most important questions from all chapters based on previous year analysis.",
+                duration: 120,
+                totalMarks: 50,
+                sections: [
+                    { name: "Numerical Problems", questions: "10", marks: "20" },
+                    { name: "Theory Questions", questions: "10", marks: "20" },
+                    { name: "Derivation", questions: "2", marks: "10" }
+                ]
+            },
+            {
+                id: 3,
+                title: "HSE Odisha Class 12 Physics - Model Paper",
+                board: "HSE_ODISHA",
+                subject: "Physics",
+                classLevel: 12,
+                type: "model",
+                description: "As per CHSE Odisha exam pattern with all units covered.",
+                duration: 150,
+                totalMarks: 60,
+                sections: [
+                    { name: "Very Short", questions: "10 (1 mark)", marks: "10" },
+                    { name: "Short", questions: "10 (2 marks)", marks: "20" },
+                    { name: "Long", questions: "6 (5 marks)", marks: "30" }
+                ]
+            },
+            {
+                id: 4,
+                title: "CBSE Class 12 Chemistry - Model Paper 2024",
+                board: "CBSE",
+                subject: "Chemistry",
+                classLevel: 12,
+                type: "model",
+                description: "Complete chemistry model paper with organic, inorganic, and physical chemistry.",
+                duration: 180,
+                totalMarks: 70,
+                sections: [
+                    { name: "Physical Chemistry", questions: "12", marks: "24" },
+                    { name: "Inorganic Chemistry", questions: "10", marks: "20" },
+                    { name: "Organic Chemistry", questions: "10", marks: "26" }
+                ]
+            },
+            {
+                id: 5,
+                title: "CBSE Class 12 Mathematics - Model Paper",
+                board: "CBSE",
+                subject: "Mathematics",
+                classLevel: 12,
+                type: "model",
+                description: "Full syllabus model paper with calculus, algebra, and geometry.",
+                duration: 180,
+                totalMarks: 80,
+                sections: [
+                    { name: "Relations & Functions", questions: "6", marks: "12" },
+                    { name: "Calculus", questions: "14", marks: "32" },
+                    { name: "Algebra", questions: "6", marks: "14" },
+                    { name: "Vectors & 3D", questions: "6", marks: "14" }
+                ]
+            },
+            {
+                id: 6,
+                title: "CBSE Class 10 Mathematics - Sample Paper 2024",
+                board: "CBSE",
+                subject: "Mathematics",
+                classLevel: 10,
+                type: "sample",
+                description: "Standard sample paper as per CBSE Class 10 pattern.",
+                duration: 180,
+                totalMarks: 80,
+                sections: [
+                    { name: "1 Mark Questions", questions: "20", marks: "20" },
+                    { name: "2 Mark Questions", questions: "6", marks: "12" },
+                    { name: "3 Mark Questions", questions: "8", marks: "24" },
+                    { name: "4 Mark Questions", questions: "6", marks: "24" }
+                ]
+            },
+            {
+                id: 7,
+                title: "CBSE Class 10 Science - Important Questions",
+                board: "CBSE",
+                subject: "Science",
+                classLevel: 10,
+                type: "important",
+                description: "Most likely questions for board exams based on analysis.",
+                duration: 150,
+                totalMarks: 80,
+                sections: [
+                    { name: "Physics", questions: "15", marks: "25" },
+                    { name: "Chemistry", questions: "15", marks: "25" },
+                    { name: "Biology", questions: "15", marks: "30" }
+                ]
+            }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            initSelectors();
+            setupEventListeners();
+        }
+
+        function initSelectors() {
+            const boardSelect = document.getElementById('boardSelect');
+            const classSelect = document.getElementById('classSelect');
+            
+            // Load boards
+            fetch('/api/syllabus/boards')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        boardSelect.innerHTML = '<option value="">Select Board</option>';
+                        data.data.forEach(board => {
+                            const option = document.createElement('option');
+                            option.value = board.code;
+                            option.textContent = board.name;
+                            boardSelect.appendChild(option);
+                        });
+                    }
+                });
+            
+            // Load classes
+            classSelect.innerHTML = '<option value="">Select Class</option>';
+            for (let i = 6; i <= 12; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Class ${i}`;
+                classSelect.appendChild(option);
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('boardSelect').addEventListener('change', async function() {
+                const board = this.value;
+                const classLevel = document.getElementById('classSelect').value;
+                const subjectSelect = document.getElementById('subjectSelect');
+                
+                if (board && classLevel) {
+                    const res = await fetch(`/api/syllabus/subjects?board=${board}&class=${classLevel}`);
+                    const data = await res.json();
+                    
+                    if (data.success) {
+                        subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                        data.data.forEach(subject => {
+                            const option = document.createElement('option');
+                            option.value = subject;
+                            option.textContent = subject;
+                            subjectSelect.appendChild(option);
+                        });
+                        subjectSelect.disabled = false;
+                    }
+                }
+            });
+
+            document.getElementById('classSelect').addEventListener('change', async function() {
+                const board = document.getElementById('boardSelect').value;
+                const classLevel = this.value;
+                const subjectSelect = document.getElementById('subjectSelect');
+                
+                if (board && classLevel) {
+                    const res = await fetch(`/api/syllabus/subjects?board=${board}&class=${classLevel}`);
+                    const data = await res.json();
+                    
+                    if (data.success) {
+                        subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                        data.data.forEach(subject => {
+                            const option = document.createElement('option');
+                            option.value = subject;
+                            option.textContent = subject;
+                            subjectSelect.appendChild(option);
+                        });
+                        subjectSelect.disabled = false;
+                    }
+                }
+            });
+
+            document.getElementById('loadBtn').addEventListener('click', loadPapers);
+        }
+
+        function loadPapers() {
+            const board = document.getElementById('boardSelect').value;
+            const classLevel = document.getElementById('classSelect').value;
+            const subject = document.getElementById('subjectSelect').value;
+            
+            if (!board || !classLevel || !subject) {
+                alert('Please select all options');
+                return;
+            }
+            
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('emptyState').style.display = 'none';
+            
+            setTimeout(() => {
+                const filtered = samplePapers.filter(p => 
+                    p.board === board && 
+                    p.classLevel === parseInt(classLevel) && 
+                    p.subject === subject
+                );
+                
+                document.getElementById('loadingState').style.display = 'none';
+                
+                if (filtered.length > 0) {
+                    document.getElementById('filterBar').style.display = 'flex';
+                    renderPapers(filtered);
+                } else {
+                    document.getElementById('filterBar').style.display = 'none';
+                    document.getElementById('papersGrid').innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <h3>📄 Coming Soon!</h3>
+                            <p>Sample papers for ${subject} (${board} Class ${classLevel}) are being prepared.</p>
+                        </div>
+                    `;
+                }
+            }, 500);
+        }
+
+        function renderPapers(papers) {
+            const container = document.getElementById('papersGrid');
+            
+            container.innerHTML = papers.map(paper => {
+                const badgeClass = paper.type === 'model' ? 'badge-model' : 
+                                  paper.type === 'important' ? 'badge-important' : 'badge-sample';
+                const badgeText = paper.type === 'model' ? 'Model Paper' : 
+                                paper.type === 'important' ? 'Important' : 'Sample';
+                
+                return `
+                    <div class="paper-card" data-type="${paper.type}">
+                        <div class="paper-header">
+                            <span class="paper-badge ${badgeClass}">${badgeText}</span>
+                        </div>
+                        <h3 class="paper-title">${paper.title}</h3>
+                        <p class="paper-description">${paper.description}</p>
+                        <div class="paper-meta">
+                            <span class="meta-item">⏱️ ${paper.duration} min</span>
+                            <span class="meta-item">📊 ${paper.totalMarks} marks</span>
+                            <span class="meta-item">❓ ${paper.sections.reduce((sum, s) => sum + parseInt(s.questions), 0)} questions</span>
+                        </div>
+                        <div class="paper-sections">
+                            ${paper.sections.map(s => `
+                                <div class="section-item">
+                                    <span class="section-name">${s.name}</span>
+                                    <span class="section-detail">${s.questions}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="paper-actions">
+                            <button class="btn-start" onclick="startTest(${paper.id})">Start Practice</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function startTest(paperId) {
+            alert(`Starting sample paper ${paperId}! This would redirect to the test engine.`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Syllabus - View chapters, formulas and exam topics">
+    <title>Syllabus & Topics - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Page-specific styles */
+        .syllabus-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .syllabus-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .syllabus-header h1 {
+            font-size: 2rem;
+            color: #1E40AF;
+            margin-bottom: 10px;
+        }
+        
+        .syllabus-header p {
+            color: #6B7280;
+        }
+        
+        /* Selection Panel */
+        .selection-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+        
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+        
+        .btn-load {
+            background: #3B82F6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-load:hover {
+            background: #1E40AF;
+        }
+        
+        /* Subject Tabs */
+        .subject-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .subject-tab {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .subject-tab:hover {
+            border-color: #3B82F6;
+        }
+        
+        .subject-tab.active {
+            background: #3B82F6;
+            color: white;
+            border-color: #3B82F6;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* Chapter Cards */
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .chapter-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        
+        .chapter-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .chapter-number-badge {
+            background: #3B82F6;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .chapter-difficulty {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .difficulty-easy {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .difficulty-medium {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .difficulty-hard {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .chapter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+        
+        .chapter-weightage {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #6B7280;
+            font-size: 0.9rem;
+        }
+        
+        .weightage-icon {
+            color: #F59E0B;
+        }
+        
+        /* Important Topics */
+        .important-topics-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .important-topics-section h3 {
+            color: #1E40AF;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .topic-priority {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .priority-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #F9FAFB;
+            border-radius: 8px;
+        }
+        
+        .priority-badge {
+            background: #EF4444;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .priority-info h4 {
+            margin: 0;
+            color: #1F2937;
+        }
+        
+        .priority-info span {
+            color: #6B7280;
+            font-size: 0.85rem;
+        }
+        
+        /* Formulas Section */
+        .formulas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .formula-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #3B82F6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .formula-title {
+            font-size: 1rem;
+            color: #1E40AF;
+            margin-bottom: 12px;
+        }
+        
+        .formula-content {
+            font-size: 1.25rem;
+            font-family: 'Courier New', monospace;
+            color: #1F2937;
+            background: #F3F4F6;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        /* Summary Stats */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3B82F6;
+        }
+        
+        .stat-label {
+            color: #6B7280;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6B7280;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #E5E7EB;
+            border-top-color: #3B82F6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state h3 {
+            color: #374151;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">EduCracker</span>
+                </a>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <span></span>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Learn</span>
+                    <a href="dashboard.html" class="nav-item">
+                        <span class="nav-item-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="tests.html" class="nav-item">
+                        <span class="nav-item-icon">📝</span>
+                        My Tests
+                    </a>
+                    <a href="syllabus.html" class="nav-item active">
+                        <span class="nav-item-icon">📖</span>
+                        Syllabus
+                    </a>
+                    <a href="questions.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Questions
+                    </a>
+                    <a href="notes.html" class="nav-item">
+                        <span class="nav-item-icon">📒</span>
+                        Notes
+                    </a>
+                    <a href="formulas.html" class="nav-item">
+                        <span class="nav-item-icon">🔢</span>
+                        Formulas
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Progress</span>
+                    <a href="achievements.html" class="nav-item">
+                        <span class="nav-item-icon">🎖️</span>
+                        Achievements
+                    </a>
+                    <a href="leaderboard.html" class="nav-item">
+                        <span class="nav-item-icon">🏆</span>
+                        Leaderboard
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <span class="nav-item-icon">📋</span>
+                        Results
+                    </a>
+                    <a href="analytics.html" class="nav-item">
+                        <span class="nav-item-icon">📈</span>
+                        Analytics
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Support</span>
+                    <a href="help.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Help
+                    </a>
+                    <a href="settings.html" class="nav-item">
+                        <span class="nav-item-icon">⚙️</span>
+                        Settings
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="dashboard-header">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                </button>
+                <h1 class="page-title">Syllabus & Topics</h1>
+                <div class="header-actions">
+                    <div class="user-menu">
+                        <span class="user-avatar" id="userAvatar">U</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Syllabus Content -->
+            <div class="syllabus-container">
+                <!-- Header -->
+                <div class="syllabus-header">
+                    <h1>📖 Your Exam Syllabus</h1>
+                    <p>Select your board and class to view complete chapter-wise syllabus, important topics, and formulas</p>
+                </div>
+
+                <!-- Selection Panel -->
+                <div class="selection-panel">
+                    <div class="selection-grid">
+                        <div class="form-group">
+                            <label for="boardSelect">Select Board</label>
+                            <select id="boardSelect">
+                                <option value="">Loading boards...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="classSelect">Select Class</label>
+                            <select id="classSelect">
+                                <option value="">Select Class</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn-load" id="loadSyllabusBtn">Load Syllabus</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading syllabus...</p>
+                </div>
+
+                <!-- Content (shown after selection) -->
+                <div id="syllabusContent" style="display: none;">
+                    <!-- Summary Stats -->
+                    <div class="summary-stats" id="summaryStats">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Subject Tabs -->
+                    <div class="subject-tabs" id="subjectTabs">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Important Topics -->
+                    <div class="important-topics-section" id="importantTopics">
+                        <h3>🔥 High Priority Topics</h3>
+                        <div class="topic-priority" id="priorityTopics">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Chapters Section -->
+                    <div class="content-section active" id="chaptersSection">
+                        <h3>📚 Chapters</h3>
+                        <div class="chapters-grid" id="chaptersGrid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Formulas Section -->
+                    <div class="content-section" id="formulasSection">
+                        <h3>🔢 Important Formulas</h3>
+                        <div class="formulas-grid" id="formulasGrid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-state-icon">📖</div>
+                    <h3>Select Your Board & Class</h3>
+                    <p>Choose your educational board and class to view the complete syllabus</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/syllabus.js"></script>
+    <script>
+        // Page initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            initSyllabusPage();
+        });
+
+        function initSyllabusPage() {
+            // Initialize board selector
+            initBoardSelectors();
+            
+            // Set up event listeners
+            document.getElementById('loadSyllabusBtn').addEventListener('click', loadSyllabus);
+        }
+
+        function initBoardSelectors() {
+            const boardSelect = document.getElementById('boardSelect');
+            const classSelect = document.getElementById('classSelect');
+            
+            // Load boards
+            Syllabus.getBoards().then(boards => {
+                boardSelect.innerHTML = '<option value="">Select Board</option>';
+                boards.forEach(board => {
+                    const option = document.createElement('option');
+                    option.value = board.code;
+                    option.textContent = board.name;
+                    boardSelect.appendChild(option);
+                });
+            });
+            
+            // Load classes
+            classSelect.innerHTML = '<option value="">Select Class</option>';
+            for (let i = 6; i <= 12; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Class ${i}`;
+                classSelect.appendChild(option);
+            }
+        }
+
+        async function loadSyllabus() {
+            const board = document.getElementById('boardSelect').value;
+            const classLevel = document.getElementById('classSelect').value;
+            
+            if (!board || !classLevel) {
+                alert('Please select both board and class');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('syllabusContent').style.display = 'none';
+            
+            try {
+                // Load full syllabus
+                const syllabus = await Syllabus.getFullSyllabus(board, classLevel);
+                
+                if (!syllabus) {
+                    alert('No syllabus found for this selection');
+                    return;
+                }
+                
+                // Hide loading
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('syllabusContent').style.display = 'block';
+                
+                // Render summary
+                renderSummary(syllabus.summary);
+                
+                // Render subject tabs
+                renderSubjectTabs(syllabus.subjects);
+                
+                // Render chapters for first subject
+                const subjects = Object.keys(syllabus.subjects);
+                if (subjects.length > 0) {
+                    renderChapters(syllabus.subjects[subjects[0]].chapters);
+                    renderFormulas(syllabus.subjects[subjects[0]].formulas || []);
+                    renderPriorityTopics(syllabus.subjects[subjects[0]].chapters);
+                }
+                
+            } catch (error) {
+                console.error('Error loading syllabus:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+                alert('Failed to load syllabus. Please try again.');
+            }
+        }
+
+        function renderSummary(summary) {
+            const container = document.getElementById('summaryStats');
+            let totalChapters = 0;
+            let totalWeightage = 0;
+            
+            Object.values(summary).forEach(s => {
+                totalChapters += s.chapters;
+                totalWeightage += s.totalWeightage;
+            });
+            
+            container.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${totalChapters}</div>
+                    <div class="stat-label">Total Chapters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${Object.keys(summary).length}</div>
+                    <div class="stat-label">Subjects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${totalWeightage}%</div>
+                    <div class="stat-label">Total Weightage</div>
+                </div>
+            `;
+        }
+
+        function renderSubjectTabs(subjects) {
+            const container = document.getElementById('subjectTabs');
+            const keys = Object.keys(subjects);
+            
+            container.innerHTML = keys.map((subject, index) => `
+                <button class="subject-tab ${index === 0 ? 'active' : ''}" 
+                        data-subject="${subject}">
+                    ${subject}
+                </button>
+            `).join('');
+            
+            // Add click handlers
+            container.querySelectorAll('.subject-tab').forEach(tab => {
+                tab.addEventListener('click', async function() {
+                    // Update active state
+                    container.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const subject = this.dataset.subject;
+                    const board = document.getElementById('boardSelect').value;
+                    const classLevel = document.getElementById('classSelect').value;
+                    
+                    // Get chapters and formulas for selected subject
+                    const chapters = await Syllabus.getChapters(board, classLevel, subject);
+                    const formulas = await Syllabus.getFormulas(board, classLevel, subject);
+                    
+                    renderChapters(chapters);
+                    renderFormulas(formulas);
+                    renderPriorityTopics(chapters);
+                });
+            });
+        }
+
+        function renderChapters(chapters) {
+            const container = document.getElementById('chaptersGrid');
+            
+            container.innerHTML = chapters.map(chapter => `
+                <div class="chapter-card" data-chapter="${chapter.number}">
+                    <div class="chapter-card-header">
+                        <div class="chapter-number-badge">${chapter.number}</div>
+                        <span class="chapter-difficulty difficulty-${chapter.difficulty.toLowerCase()}">
+                            ${chapter.difficulty}
+                        </span>
+                    </div>
+                    <h4 class="chapter-title">${chapter.name}</h4>
+                    <div class="chapter-weightage">
+                        <span class="weightage-icon">📊</span>
+                        Weightage: ${chapter.weightage}%
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderFormulas(formulas) {
+            const container = document.getElementById('formulasGrid');
+            
+            if (!formulas || formulas.length === 0) {
+                container.innerHTML = '<p style="color: #6B7280;">No formulas available for this subject</p>';
+                return;
+            }
+            
+            container.innerHTML = formulas.map(formula => `
+                <div class="formula-card">
+                    <h4 class="formula-title">${formula.title}</h4>
+                    <div class="formula-content">${formula.formula}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderPriorityTopics(chapters) {
+            const container = document.getElementById('priorityTopics');
+            
+            // Get top 5 important topics by weightage
+            const priority = chapters
+                .filter(ch => ch.weightage >= 5)
+                .sort((a, b) => b.weightage - a.weightage)
+                .slice(0, 5);
+            
+            if (priority.length === 0) {
+                document.getElementById('importantTopics').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('importantTopics').style.display = 'block';
+            
+            container.innerHTML = priority.map((topic, index) => `
+                <div class="priority-item">
+                    <div class="priority-badge">${index + 1}</div>
+                    <div class="priority-info">
+                        <h4>${topic.name}</h4>
+                        <span>Weightage: ${topic.weightage}% • ${topic.difficulty}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize board selectors on page load
+        document.addEventListener('DOMContentLoaded', initBoardSelectors);
+    </script>
+</body>
+</html>

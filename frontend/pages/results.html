@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Results">
+    <title>Results - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">
+                        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="16" r="14" fill="#3B82F6"/>
+                            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span class="logo-text">EduCracker</span>
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Learn</span>
+                    <a href="dashboard.html" class="nav-item"><span class="nav-item-icon">📊</span>Dashboard</a>
+                    <a href="tests.html" class="nav-item"><span class="nav-item-icon">📝</span>My Tests</a>
+                    <a href="questions.html" class="nav-item"><span class="nav-item-icon">🎯</span>Practice Questions</a>
+                    <a href="notes.html" class="nav-item"><span class="nav-item-icon">📚</span>Study Materials</a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-section-title">Progress</span>
+                    <a href="analytics.html" class="nav-item" data-premium-lock="true"><span class="nav-item-icon">📈</span>Analytics</a>
+                    <a href="achievements.html" class="nav-item"><span class="nav-item-icon">🎖️</span>Achievements</a>
+                    <a href="leaderboard.html" class="nav-item"><span class="nav-item-icon">🏆</span>Leaderboard</a>
+                    <a href="results.html" class="nav-item active"><span class="nav-item-icon">📋</span>Results</a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-section-title">Resources</span>
+                    <a href="notes.html" class="nav-item"><span class="nav-item-icon">📖</span>Notes</a>
+                    <a href="bookmarks.html" class="nav-item"><span class="nav-item-icon">🔖</span>Bookmarks</a>
+                    <a href="schedule.html" class="nav-item"><span class="nav-item-icon">📅</span>Schedule</a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-section-title">Account</span>
+                    <a href="pricing.html" class="nav-item"><span class="nav-item-icon">💎</span>Pricing</a>
+                    <a href="profile.html" class="nav-item"><span class="nav-item-icon">👤</span>Profile</a>
+                    <a href="settings.html" class="nav-item"><span class="nav-item-icon">⚙️</span>Settings</a>
+                    <a href="help.html" class="nav-item"><span class="nav-item-icon">❓</span>Help & Support</a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <button class="sidebar-toggle" id="sidebarToggle"><span class="toggle-icon">☰</span></button>
+                <div class="header-actions">
+                    <button class="notification-btn">🔔</button>
+                    <div class="user-menu"><span class="user-avatar">U</span></div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <div class="page-header">
+                    <h1>Test Results</h1>
+                    <p>View your test history and performance</p>
+                </div>
+
+                <div class="results-list">
+                    <div class="result-card">
+                        <div class="result-info">
+                            <h3>Mathematics Mock Test</h3>
+                            <p>Completed: Jan 15, 2026</p>
+                        </div>
+                        <div class="result-score">
+                            <span class="score">85%</span>
+                            <span class="status passed">Passed</span>
+                        </div>
+                        <a href="test-result.html" class="btn btn-outline">View Details</a>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-info">
+                            <h3>Physics Chapter Test</h3>
+                            <p>Completed: Jan 12, 2026</p>
+                        </div>
+                        <div class="result-score">
+                            <span class="score">72%</span>
+                            <span class="status passed">Passed</span>
+                        </div>
+                        <a href="test-result.html" class="btn btn-outline">View Details</a>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-info">
+                            <h3>Chemistry Quiz</h3>
+                            <p>Completed: Jan 10, 2026</p>
+                        </div>
+                        <div class="result-score">
+                            <span class="score">58%</span>
+                            <span class="status failed">Needs Improvement</span>
+                        </div>
+                        <a href="test-result.html" class="btn btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <script src="../js/app.js"></script>
+    <script src="../js/premium.js"></script>
+</body>
+</html>

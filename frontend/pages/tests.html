@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Mock Tests - Practice with real exam simulations">
+    <title>Mock Tests - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">
+                        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="16" r="14" fill="#3B82F6"/>
+                            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span class="logo-text">EduCracker</span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Learn</span>
+                    <a href="dashboard.html" class="nav-item">
+                        <span class="nav-item-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="tests.html" class="nav-item active">
+                        <span class="nav-item-icon">📝</span>
+                        My Tests
+                    </a>
+                    <a href="syllabus.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Syllabus
+                    </a>
+                    <a href="formulas.html" class="nav-item">
+                        <span class="nav-item-icon">🔢</span>
+                        Formulas
+                    </a>
+                    <a href="flashcards.html" class="nav-item">
+                        <span class="nav-item-icon">🎴</span>
+                        Flashcards
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Practice</span>
+                    <a href="previous-papers.html" class="nav-item">
+                        <span class="nav-item-icon">📜</span>
+                        PYQs
+                    </a>
+                    <a href="sample-papers.html" class="nav-item">
+                        <span class="nav-item-icon">📄</span>
+                        Sample Papers
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Progress</span>
+                    <a href="#" class="nav-item" data-premium-lock="true">
+                        <span class="nav-item-icon">📈</span>
+                        Analytics
+                    </a>
+                    <a href="achievements.html" class="nav-item">
+                        <span class="nav-item-icon">🎖️</span>
+                        Achievements
+                    </a>
+                    <a href="leaderboard.html" class="nav-item">
+                        <span class="nav-item-icon">🏆</span>
+                        Leaderboard
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <span class="nav-item-icon">📋</span>
+                        Results
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Resources</span>
+                    <a href="tests.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Notes
+                    </a>
+                    <a href="tests.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Notes
+                    </a>
+                    <a href="bookmarks.html" class="nav-item">
+                        <span class="nav-item-icon">🔖</span>
+                        Bookmarks
+                    </a>
+                    <a href="schedule.html" class="nav-item">
+                        <span class="nav-item-icon">📅</span>
+                        Schedule
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Account</span>
+                    <a href="pricing.html" class="nav-item">
+                        <span class="nav-item-icon">💎</span>
+                        Pricing
+                    </a>
+                    <a href="dashboard.html" class="nav-item">
+                        <span class="nav-item-icon">👤</span>
+                        Profile
+                    </a>
+                    <a href="profile.html" class="nav-item">
+                        <span class="nav-item-icon">👤</span>
+                        Profile
+                    </a>
+                    <a href="settings.html" class="nav-item">
+                        <span class="nav-item-icon">⚙️</span>
+                        Settings
+                    </a>
+                    <a href="help.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Help & Support
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">JD</div>
+                    <div class="user-details">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Student</div>
+                    </div>
+                </div>
+                <a href="index.html" class="logout-btn" title="Logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16,17 21,12 16,7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <nav class="top-navbar">
+                <div class="navbar-left">
+                    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                    <h1 class="page-title">Mock Tests</h1>
+                </div>
+                
+                <div class="navbar-right">
+                    <div id="planBadgeContainer">
+                        <span class="plan-badge plan-badge-free">Free Plan</span>
+                    </div>
+                    <div class="search-box">
+                        <label for="testSearch" class="visually-hidden">Search tests</label>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <input type="text" placeholder="Search tests..." id="testSearch">
+                    </div>
+                    <button class="notification-btn" aria-label="Notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Tests Content -->
+            <div class="tests-content">
+                <!-- Filter Tabs -->
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">All Tests</button>
+                    <button class="filter-tab" data-filter="completed">Completed</button>
+                    <button class="filter-tab" data-filter="available">Available</button>
+                    <button class="filter-tab" data-filter="bookmarked">Bookmarked</button>
+                </div>
+                
+                <!-- Test Categories -->
+                <div class="test-categories">
+                    <div class="category-card active" data-category="all">
+                        <div class="category-icon">📚</div>
+                        <div class="category-info">
+                            <h3>All Subjects</h3>
+                            <p>24 tests available</p>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="mathematics">
+                        <div class="category-icon">🔢</div>
+                        <div class="category-info">
+                            <h3>Mathematics</h3>
+                            <p>8 tests available</p>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="science">
+                        <div class="category-icon">🔬</div>
+                        <div class="category-info">
+                            <h3>Science</h3>
+                            <p>6 tests available</p>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="english">
+                        <div class="category-icon">📖</div>
+                        <div class="category-info">
+                            <h3>English</h3>
+                            <p>5 tests available</p>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="reasoning">
+                        <div class="category-icon">🧠</div>
+                        <div class="category-info">
+                            <h3>Reasoning</h3>
+                            <p>5 tests available</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Test Cards Grid -->
+                <div class="tests-grid" id="testsGrid">
+                    <!-- Test Card 1 -->
+                    <div class="test-card" data-category="mathematics" data-status="available">
+                        <div class="test-card-header">
+                            <span class="test-badge">JEE Main</span>
+                            <button class="bookmark-btn" title="Bookmark">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="test-card-body">
+                            <h3 class="test-title">Mathematics - Algebra Complete</h3>
+                            <p class="test-description">Comprehensive test covering algebraic expressions, equations, and inequalities</p>
+                            <div class="test-meta">
+                                <div class="meta-item">
+                                    <span class="meta-icon">📝</span>
+                                    <span>30 Questions</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">⏱️</span>
+                                    <span>60 Minutes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">📊</span>
+                                    <span>Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="test-card-footer">
+                            <div class="test-stats">
+                                <span class="stat">
+                                    <strong>2,543</strong> attempted
+                                </span>
+                                <span class="stat">
+                                    <strong>78%</strong> avg score
+                                </span>
+                            </div>
+                            <a href="test-instructions.html?testId=1" class="btn btn-primary">Start Test</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Test Card 2 -->
+                    <div class="test-card" data-category="science" data-status="completed">
+                        <div class="test-card-header">
+                            <span class="test-badge">NEET</span>
+                            <button class="bookmark-btn" title="Bookmark">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="test-card-body">
+                            <h3 class="test-title">Physics - Mechanics</h3>
+                            <p class="test-description">Test your understanding of Newtonian physics and motion concepts</p>
+                            <div class="test-meta">
+                                <div class="meta-item">
+                                    <span class="meta-icon">📝</span>
+                                    <span>25 Questions</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">⏱️</span>
+                                    <span>45 Minutes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">📊</span>
+                                    <span>Hard</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="test-card-footer">
+                            <div class="test-stats completed">
+                                <span class="score-badge">
+                                    <span class="score-value">85%</span>
+                                    <span class="score-label">Your Score</span>
+                                </span>
+                                <span class="stat">
+                                    <strong>3 days ago</strong>
+                                </span>
+                            </div>
+                            <a href="test-result.html?testId=2" class="btn btn-secondary">View Result</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Test Card 3 -->
+                    <div class="test-card" data-category="english" data-status="available">
+                        <div class="test-card-header">
+                            <span class="test-badge">GRE</span>
+                            <button class="bookmark-btn bookmarked" title="Remove Bookmark">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="test-card-body">
+                            <h3 class="test-title">English - Vocabulary & Grammar</h3>
+                            <p class="test-description">Advanced English test focusing on vocabulary and grammatical accuracy</p>
+                            <div class="test-meta">
+                                <div class="meta-item">
+                                    <span class="meta-icon">📝</span>
+                                    <span>20 Questions</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">⏱️</span>
+                                    <span>30 Minutes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">📊</span>
+                                    <span>Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="test-card-footer">
+                            <div class="test-stats">
+                                <span class="stat">
+                                    <strong>1,892</strong> attempted
+                                </span>
+                                <span class="stat">
+                                    <strong>72%</strong> avg score
+                                </span>
+                            </div>
+                            <a href="test-instructions.html?testId=3" class="btn btn-primary">Start Test</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Test Card 4 -->
+                    <div class="test-card" data-category="reasoning" data-status="available">
+                        <div class="test-card-header">
+                            <span class="test-badge">Bank PO</span>
+                            <button class="bookmark-btn" title="Bookmark">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="test-card-body">
+                            <h3 class="test-title">Logical Reasoning - Series</h3>
+                            <p class="test-description">Master number series, alphanumeric series, and pattern recognition</p>
+                            <div class="test-meta">
+                                <div class="meta-item">
+                                    <span class="meta-icon">📝</span>
+                                    <span>35 Questions</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">⏱️</span>
+                                    <span>20 Minutes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">📊</span>
+                                    <span>Easy</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="test-card-footer">
+                            <div class="test-stats">
+                                <span class="stat">
+                                    <strong>4,215</strong> attempted
+                                </span>
+                                <span class="stat">
+                                    <strong>68%</strong> avg score
+                                </span>
+                            </div>
+                            <a href="test-instructions.html?testId=4" class="btn btn-primary">Start Test</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Test Card 5 -->
+                    <div class="test-card" data-category="mathematics" data-status="available">
+                        <div class="test-card-header">
+                            <span class="test-badge">JEE Main</span>
+                            <button class="bookmark-btn" title="Bookmark">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="test-card-body">
+                            <h3 class="test-title">Mathematics - Calculus</h3>
+                            <p class="test-description">Differential and integral calculus with applications</p>
+                            <div class="test-meta">
+                                <div class="meta-item">
+                                    <span class="meta-icon">📝</span>
+                                    <span>30 Questions</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">⏱️</span>
+                                    <span>60 Minutes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">📊</span>
+                                    <span>Hard</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="test-card-footer">
+                            <div class="test-stats">
+                                <span class="stat">
+                                    <strong>1,987</strong> attempted
+                                </span>
+                                <span class="stat">
+                                    <strong>65%</strong> avg score
+                                </span>
+                            </div>
+                            <a href="test-instructions.html?testId=5" class="btn btn-primary">Start Test</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Test Card 6 -->
+                    <div class="test-card premium-locked" data-category="science" data-status="available">
+                        <div class="test-card-header">
+                            <span class="test-badge premium">PREMIUM</span>
+                            <button class="bookmark-btn" title="Bookmark">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="test-card-body">
+                            <h3 class="test-title">Chemistry - Organic Chemistry</h3>
+                            <p class="test-description">Complete organic chemistry with reaction mechanisms</p>
+                            <div class="test-meta">
+                                <div class="meta-item">
+                                    <span class="meta-icon">📝</span>
+                                    <span>45 Questions</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">⏱️</span>
+                                    <span>60 Minutes</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">📊</span>
+                                    <span>Expert</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="test-card-footer">
+                            <div class="test-stats">
+                                <span class="stat">
+                                    <strong>856</strong> attempted
+                                </span>
+                                <span class="stat">
+                                    <strong>58%</strong> avg score
+                                </span>
+                            </div>
+                            <a href="pricing.html" class="btn btn-premium">
+                                <span>💎</span> Unlock Premium
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="pagination-btn" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15,18 9,12 15,6"/>
+                        </svg>
+                    </button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="../js/app.js"></script>
+    <script src="../js/test-engine.js"></script>
+</body>
+</html>

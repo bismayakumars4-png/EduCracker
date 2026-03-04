@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Formulas - Quick revision formulas for exams">
+    <title>Formulas & Quick Revision - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Page-specific styles */
+        .formulas-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .formulas-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .formulas-header h1 {
+            font-size: 2rem;
+            color: #1E40AF;
+            margin-bottom: 10px;
+        }
+        
+        .formulas-header p {
+            color: #6B7280;
+        }
+        
+        /* Selection Panel */
+        .selection-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+        
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+        
+        .btn-load {
+            background: #3B82F6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-load:hover {
+            background: #1E40AF;
+        }
+        
+        /* Search Box */
+        .search-box {
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+        }
+        
+        /* Subject Tabs */
+        .subject-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .subject-tab {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .subject-tab:hover {
+            border-color: #3B82F6;
+        }
+        
+        .subject-tab.active {
+            background: #3B82F6;
+            color: white;
+            border-color: #3B82F6;
+        }
+        
+        /* Formula Cards */
+        .formulas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .formula-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .formula-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .formula-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3B82F6, #60A5FA);
+        }
+        
+        .formula-card.physics::before {
+            background: linear-gradient(to bottom, #8B5CF6, #A78BFA);
+        }
+        
+        .formula-card.chemistry::before {
+            background: linear-gradient(to bottom, #10B981, #34D399);
+        }
+        
+        .formula-card.math::before {
+            background: linear-gradient(to bottom, #F59E0B, #FBBF24);
+        }
+        
+        .formula-card.biology::before {
+            background: linear-gradient(to bottom, #EF4444, #F87171);
+        }
+        
+        .formula-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .formula-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1F2937;
+        }
+        
+        .formula-bookmark {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 4px;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        
+        .formula-bookmark:hover {
+            opacity: 1;
+        }
+        
+        .formula-bookmark.active {
+            opacity: 1;
+        }
+        
+        .formula-content {
+            font-size: 1.5rem;
+            font-family: 'Courier New', monospace;
+            color: #1E40AF;
+            background: #F3F4F6;
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+        
+        .formula-description {
+            color: #6B7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .formula-chapter {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 12px;
+            background: #EEF2FF;
+            color: #4F46E5;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        /* Category Filter */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            border-color: #3B82F6;
+        }
+        
+        .filter-btn.active {
+            background: #3B82F6;
+            color: white;
+            border-color: #3B82F6;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .quick-action-btn:hover {
+            border-color: #3B82F6;
+            background: #F3F4F6;
+        }
+        
+        .quick-action-btn.primary {
+            background: #3B82F6;
+            color: white;
+            border-color: #3B82F6;
+        }
+        
+        .quick-action-btn.primary:hover {
+            background: #1E40AF;
+        }
+        
+        /* Print View */
+        @media print {
+            .selection-panel,
+            .search-box,
+            .subject-tabs,
+            .filter-bar,
+            .quick-actions {
+                display: none !important;
+            }
+            
+            .formulas-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .formula-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #E5E7EB;
+            }
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6B7280;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #E5E7EB;
+            border-top-color: #3B82F6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state h3 {
+            color: #374151;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">EduCracker</span>
+                </a>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <span></span>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Learn</span>
+                    <a href="dashboard.html" class="nav-item">
+                        <span class="nav-item-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="tests.html" class="nav-item">
+                        <span class="nav-item-icon">📝</span>
+                        My Tests
+                    </a>
+                    <a href="syllabus.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Syllabus
+                    </a>
+                    <a href="questions.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Questions
+                    </a>
+                    <a href="notes.html" class="nav-item">
+                        <span class="nav-item-icon">📒</span>
+                        Notes
+                    </a>
+                    <a href="formulas.html" class="nav-item active">
+                        <span class="nav-item-icon">🔢</span>
+                        Formulas
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Progress</span>
+                    <a href="achievements.html" class="nav-item">
+                        <span class="nav-item-icon">🎖️</span>
+                        Achievements
+                    </a>
+                    <a href="leaderboard.html" class="nav-item">
+                        <span class="nav-item-icon">🏆</span>
+                        Leaderboard
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <span class="nav-item-icon">📋</span>
+                        Results
+                    </a>
+                    <a href="analytics.html" class="nav-item">
+                        <span class="nav-item-icon">📈</span>
+                        Analytics
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Support</span>
+                    <a href="help.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Help
+                    </a>
+                    <a href="settings.html" class="nav-item">
+                        <span class="nav-item-icon">⚙️</span>
+                        Settings
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="dashboard-header">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                </button>
+                <h1 class="page-title">Formulas & Quick Revision</h1>
+                <div class="header-actions">
+                    <button class="quick-action-btn" onclick="window.print()">
+                        🖨️ Print
+                    </button>
+                </div>
+            </header>
+
+            <!-- Formulas Content -->
+            <div class="formulas-container">
+                <!-- Header -->
+                <div class="formulas-header">
+                    <h1>🔢 Important Formulas</h1>
+                    <p>Quick revision of all important formulas for your exams</p>
+                </div>
+
+                <!-- Selection Panel -->
+                <div class="selection-panel">
+                    <div class="selection-grid">
+                        <div class="form-group">
+                            <label for="boardSelect">Board</label>
+                            <select id="boardSelect">
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="classSelect">Class</label>
+                            <select id="classSelect">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn-load" id="loadFormulasBtn">Load Formulas</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <button class="quick-action-btn primary" id="bookmarkedBtn">
+                        ⭐ Bookmarked
+                    </button>
+                    <button class="quick-action-btn" onclick="copyAllFormulas()">
+                        📋 Copy All
+                    </button>
+                    <button class="quick-action-btn" onclick="window.print()">
+                        🖨️ Print
+                    </button>
+                </div>
+
+                <!-- Search -->
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="formulaSearch" placeholder="Search formulas...">
+                </div>
+
+                <!-- Subject Tabs -->
+                <div class="subject-tabs" id="subjectTabs">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading formulas...</p>
+                </div>
+
+                <!-- Formulas Grid -->
+                <div id="formulasGrid" class="formulas-grid">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-state-icon">🔢</div>
+                    <h3>No Formulas to Display</h3>
+                    <p>Select your board and class to view formulas</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/syllabus.js"></script>
+    <script>
+        // Global state
+        let allFormulas = [];
+        let filteredFormulas = [];
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initFormulaPage();
+        });
+
+        function initFormulaPage() {
+            initSelectors();
+            setupEventListeners();
+        }
+
+        function initSelectors() {
+            const boardSelect = document.getElementById('boardSelect');
+            const classSelect = document.getElementById('classSelect');
+            
+            // Load boards
+            Syllabus.getBoards().then(boards => {
+                boardSelect.innerHTML = '<option value="">Select Board</option>';
+                boards.forEach(board => {
+                    const option = document.createElement('option');
+                    option.value = board.code;
+                    option.textContent = board.name;
+                    boardSelect.appendChild(option);
+                });
+            });
+            
+            // Load classes
+            classSelect.innerHTML = '<option value="">Select Class</option>';
+            for (let i = 6; i <= 12; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Class ${i}`;
+                classSelect.appendChild(option);
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('loadFormulasBtn').addEventListener('click', loadFormulas);
+            
+            // Search
+            document.getElementById('formulaSearch').addEventListener('input', function(e) {
+                filterFormulas(e.target.value);
+            });
+        }
+
+        async function loadFormulas() {
+            const board = document.getElementById('boardSelect').value;
+            const classLevel = document.getElementById('classSelect').value;
+            
+            if (!board || !classLevel) {
+                alert('Please select board and class');
+                return;
+            }
+            
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('formulasGrid').innerHTML = '';
+            
+            try {
+                // Get subjects
+                const subjects = await Syllabus.getSubjects(board, classLevel);
+                
+                if (!subjects || subjects.length === 0) {
+                    document.getElementById('loadingState').style.display = 'none';
+                    document.getElementById('emptyState').style.display = 'block';
+                    return;
+                }
+                
+                // Get formulas for each subject
+                allFormulas = [];
+                for (const subject of subjects) {
+                    const formulas = await Syllabus.getFormulas(board, classLevel, subject);
+                    formulas.forEach(f => {
+                        allFormulas.push({
+                            ...f,
+                            subject: subject,
+                            category: getSubjectCategory(subject)
+                        });
+                    });
+                }
+                
+                filteredFormulas = [...allFormulas];
+                
+                // Hide loading
+                document.getElementById('loadingState').style.display = 'none';
+                
+                // Render subject tabs
+                renderSubjectTabs(subjects);
+                
+                // Render all formulas
+                renderFormulas(filteredFormulas);
+                
+            } catch (error) {
+                console.error('Error loading formulas:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+            }
+        }
+
+        function getSubjectCategory(subject) {
+            const physics = ['Physics', 'phy'];
+            const chemistry = ['Chemistry', 'chem'];
+            const math = ['Mathematics', 'Math', 'math', 'Maths'];
+            const biology = ['Biology', 'Bio', 'botany', 'zoology'];
+            
+            subject = subject.toLowerCase();
+            
+            if (physics.includes(subject) || subject.includes('phys')) return 'physics';
+            if (chemistry.includes(subject) || subject.includes('chem')) return 'chemistry';
+            if (math.includes(subject)) return 'math';
+            if (biology.includes(subject) || subject.includes('bio')) return 'biology';
+            
+            return 'default';
+        }
+
+        function renderSubjectTabs(subjects) {
+            const container = document.getElementById('subjectTabs');
+            
+            container.innerHTML = `
+                <button class="subject-tab active" data-subject="all">All</button>
+                ${subjects.map(subject => `
+                    <button class="subject-tab" data-subject="${subject}">${subject}</button>
+                `).join('')}
+            `;
+            
+            // Add click handlers
+            container.querySelectorAll('.subject-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    container.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const subject = this.dataset.subject;
+                    if (subject === 'all') {
+                        filteredFormulas = [...allFormulas];
+                    } else {
+                        filteredFormulas = allFormulas.filter(f => f.subject === subject);
+                    }
+                    
+                    renderFormulas(filteredFormulas);
+                });
+            });
+        }
+
+        function renderFormulas(formulas) {
+            const container = document.getElementById('formulasGrid');
+            
+            if (!formulas || formulas.length === 0) {
+                container.innerHTML = '<p style="color: #6B7280; grid-column: 1/-1;">No formulas found</p>';
+                return;
+            }
+            
+            container.innerHTML = formulas.map((formula, index) => `
+                <div class="formula-card ${formula.category}" data-index="${index}">
+                    <div class="formula-header">
+                        <h4 class="formula-title">${formula.title}</h4>
+                        <button class="formula-bookmark" onclick="toggleBookmark(${index})">
+                            ${formula.bookmarked ? '⭐' : '☆'}
+                        </button>
+                    </div>
+                    <div class="formula-content">${formula.formula}</div>
+                    ${formula.description ? `<p class="formula-description">${formula.description}</p>` : ''}
+                    <span class="formula-chapter">Chapter ${formula.chapter || 'N/A'}</span>
+                </div>
+            `).join('');
+        }
+
+        function filterFormulas(query) {
+            if (!query) {
+                filteredFormulas = [...allFormulas];
+            } else {
+                query = query.toLowerCase();
+                filteredFormulas = allFormulas.filter(f => 
+                    f.title.toLowerCase().includes(query) ||
+                    f.formula.toLowerCase().includes(query) ||
+                    (f.description && f.description.toLowerCase().includes(query))
+                );
+            }
+            
+            // Apply current subject filter
+            const activeTab = document.querySelector('.subject-tab.active');
+            if (activeTab && activeTab.dataset.subject !== 'all') {
+                filteredFormulas = filteredFormulas.filter(f => f.subject === activeTab.dataset.subject);
+            }
+            
+            renderFormulas(filteredFormulas);
+        }
+
+        function toggleBookmark(index) {
+            const formula = filteredFormulas[index];
+            formula.bookmarked = !formula.bookmarked;
+            renderFormulas(filteredFormulas);
+        }
+
+        function copyAllFormulas() {
+            const text = filteredFormulas.map(f => `${f.title}: ${f.formula}`).join('\n\n');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Formulas copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>

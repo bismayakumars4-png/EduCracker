@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Flashcards - Quick revision flashcards">
+    <title>Flashcards - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Page-specific styles */
+        .flashcards-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .flashcards-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .flashcards-header h1 {
+            font-size: 2rem;
+            color: #1E40AF;
+            margin-bottom: 10px;
+        }
+        
+        .flashcards-header p {
+            color: #6B7280;
+        }
+        
+        /* Selection Panel */
+        .selection-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+        
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .btn-start {
+            background: #3B82F6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-start:hover {
+            background: #1E40AF;
+        }
+        
+        /* Flashcard */
+        .flashcard-area {
+            perspective: 1000px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        
+        .flashcard {
+            position: relative;
+            width: 100%;
+            min-height: 350px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            min-height: 350px;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .flashcard-front {
+            background: linear-gradient(135deg, #3B82F6, #1E40AF);
+            color: white;
+        }
+        
+        .flashcard-back {
+            background: white;
+            transform: rotateY(180deg);
+            border: 2px solid #3B82F6;
+        }
+        
+        .flashcard-topic {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .flashcard-question {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        
+        .flashcard-answer {
+            font-size: 1.2rem;
+            color: #1E40AF;
+            line-height: 1.6;
+        }
+        
+        .flashcard-hint {
+            margin-top: 20px;
+            padding: 10px 16px;
+            background: #FEF3C7;
+            border-radius: 8px;
+            color: #92400E;
+            font-size: 0.9rem;
+        }
+        
+        .flashcard-label {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+        
+        .click-hint {
+            position: absolute;
+            bottom: 16px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+        
+        /* Navigation */
+        .flashcard-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            border-color: #3B82F6;
+            color: #3B82F6;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .progress-indicator {
+            text-align: center;
+            color: #6B7280;
+            font-weight: 500;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .control-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .control-btn.difficulty-hard {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        
+        .control-btn.difficulty-medium {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .control-btn.difficulty-easy {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        
+        .control-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Stats */
+        .session-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 24px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3B82F6;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6B7280;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6B7280;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #E5E7EB;
+            border-top-color: #3B82F6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Empty */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">EduCracker</span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Learn</span>
+                    <a href="dashboard.html" class="nav-item">
+                        <span class="nav-item-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="tests.html" class="nav-item">
+                        <span class="nav-item-icon">📝</span>
+                        My Tests
+                    </a>
+                    <a href="syllabus.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Syllabus
+                    </a>
+                    <a href="questions.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Questions
+                    </a>
+                    <a href="notes.html" class="nav-item">
+                        <span class="nav-item-icon">📒</span>
+                        Notes
+                    </a>
+                    <a href="formulas.html" class="nav-item">
+                        <span class="nav-item-icon">🔢</span>
+                        Formulas
+                    </a>
+                    <a href="flashcards.html" class="nav-item active">
+                        <span class="nav-item-icon">🎴</span>
+                        Flashcards
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Practice</span>
+                    <a href="previous-papers.html" class="nav-item">
+                        <span class="nav-item-icon">📜</span>
+                        PYQs
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Progress</span>
+                    <a href="achievements.html" class="nav-item">
+                        <span class="nav-item-icon">🎖️</span>
+                        Achievements
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <span class="nav-item-icon">📋</span>
+                        Results
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1 class="page-title">Flashcards</h1>
+            </header>
+
+            <div class="flashcards-container">
+                <!-- Header -->
+                <div class="flashcards-header">
+                    <h1>🎴 Flashcards for Quick Revision</h1>
+                    <p>Flip through these flashcards to quickly review important concepts</p>
+                </div>
+
+                <!-- Selection Panel -->
+                <div class="selection-panel" id="selectionPanel">
+                    <div class="selection-grid">
+                        <div class="form-group">
+                            <label for="boardSelect">Board</label>
+                            <select id="boardSelect">
+                                <option value="">Select Board</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="classSelect">Class</label>
+                            <select id="classSelect">
+                                <option value="">Select Class</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subjectSelect">Subject</label>
+                            <select id="subjectSelect" disabled>
+                                <option value="">Select Board First</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn-start" id="startBtn">Start Review</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading -->
+                <div id="loadingState" class="loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading flashcards...</p>
+                </div>
+
+                <!-- Flashcard Area -->
+                <div id="flashcardArea" style="display: none;">
+                    <div class="flashcard-area">
+                        <div class="flashcard" id="flashcard">
+                            <div class="flashcard-face flashcard-front">
+                                <span class="flashcard-label">Question</span>
+                                <span class="flashcard-topic" id="cardTopic">Topic</span>
+                                <p class="flashcard-question" id="cardQuestion">Question text here?</p>
+                                <span class="click-hint">Click to reveal answer</span>
+                            </div>
+                            <div class="flashcard-face flashcard-back">
+                                <span class="flashcard-label" style="color: #3B82F6;">Answer</span>
+                                <p class="flashcard-answer" id="cardAnswer">Answer text here</p>
+                                <div class="flashcard-hint" id="cardHint">Hint: Something helpful</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="flashcard-nav">
+                        <button class="nav-btn" id="prevBtn" disabled>
+                            ← Previous
+                        </button>
+                        <span class="progress-indicator" id="progressIndicator">1 / 10</span>
+                        <button class="nav-btn" id="nextBtn">
+                            Next →
+                        </button>
+                    </div>
+
+                    <!-- Difficulty Controls -->
+                    <div class="controls">
+                        <button class="control-btn difficulty-hard" onclick="markDifficult()">
+                            ❌ Difficult
+                        </button>
+                        <button class="control-btn difficulty-medium" onclick="markMedium()">
+                            ⚠️ Review Later
+                        </button>
+                        <button class="control-btn difficulty-easy" onclick="markEasy()">
+                            ✓ Got It!
+                        </button>
+                    </div>
+
+                    <!-- Session Stats -->
+                    <div class="session-stats">
+                        <div class="stat-item">
+                            <div class="stat-number" id="statEasy">0</div>
+                            <div class="stat-label">Got It</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="statMedium">0</div>
+                            <div class="stat-label">Review Later</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="statHard">0</div>
+                            <div class="stat-label">Difficult</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state">
+                    <p>Select your board, class, and subject to start reviewing flashcards</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // State
+        let flashcards = [];
+        let currentIndex = 0;
+        let easyCount = 0;
+        let mediumCount = 0;
+        let hardCount = 0;
+        
+        const API_BASE = '/api';
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', init);
+        
+        function init() {
+            initSelectors();
+            setupEventListeners();
+        }
+        
+        function initSelectors() {
+            const boardSelect = document.getElementById('boardSelect');
+            const classSelect = document.getElementById('classSelect');
+            
+            // Load boards
+            fetch(`${API_BASE}/syllabus/boards`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        boardSelect.innerHTML = '<option value="">Select Board</option>';
+                        data.data.forEach(board => {
+                            const option = document.createElement('option');
+                            option.value = board.code;
+                            option.textContent = board.name;
+                            boardSelect.appendChild(option);
+                        });
+                    }
+                });
+            
+            // Load classes
+            classSelect.innerHTML = '<option value="">Select Class</option>';
+            for (let i = 6; i <= 12; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Class ${i}`;
+                classSelect.appendChild(option);
+            }
+        }
+        
+        function setupEventListeners() {
+            // Board change
+            document.getElementById('boardSelect').addEventListener('change', async function() {
+                const board = this.value;
+                const classLevel = document.getElementById('classSelect').value;
+                const subjectSelect = document.getElementById('subjectSelect');
+                
+                if (board && classLevel) {
+                    const res = await fetch(`${API_BASE}/syllabus/subjects?board=${board}&class=${classLevel}`);
+                    const data = await res.json();
+                    
+                    if (data.success) {
+                        subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                        data.data.forEach(subject => {
+                            const option = document.createElement('option');
+                            option.value = subject;
+                            option.textContent = subject;
+                            subjectSelect.appendChild(option);
+                        });
+                        subjectSelect.disabled = false;
+                    }
+                }
+            });
+            
+            // Class change
+            document.getElementById('classSelect').addEventListener('change', async function() {
+                const board = document.getElementById('boardSelect').value;
+                const classLevel = this.value;
+                const subjectSelect = document.getElementById('subjectSelect');
+                
+                if (board && classLevel) {
+                    const res = await fetch(`${API_BASE}/syllabus/subjects?board=${board}&class=${classLevel}`);
+                    const data = await res.json();
+                    
+                    if (data.success) {
+                        subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                        data.data.forEach(subject => {
+                            const option = document.createElement('option');
+                            option.value = subject;
+                            option.textContent = subject;
+                            subjectSelect.appendChild(option);
+                        });
+                        subjectSelect.disabled = false;
+                    }
+                }
+            });
+            
+            // Start button
+            document.getElementById('startBtn').addEventListener('click', loadFlashcards);
+            
+            // Flashcard click
+            document.getElementById('flashcard').addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+            
+            // Navigation
+            document.getElementById('prevBtn').addEventListener('click', prevCard);
+            document.getElementById('nextBtn').addEventListener('click', nextCard);
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight') nextCard();
+                if (e.key === 'ArrowLeft') prevCard();
+                if (e.key === ' ') {
+                    e.preventDefault();
+                    document.getElementById('flashcard').classList.toggle('flipped');
+                }
+            });
+        }
+        
+        async function loadFlashcards() {
+            const board = document.getElementById('boardSelect').value;
+            const classLevel = document.getElementById('classSelect').value;
+            const subject = document.getElementById('subjectSelect').value;
+            
+            if (!board || !classLevel || !subject) {
+                alert('Please select all options');
+                return;
+            }
+            
+            document.getElementById('selectionPanel').style.display = 'none';
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('emptyState').style.display = 'none';
+            
+            try {
+                const res = await fetch(
+                    `${API_BASE}/practice/flashcards/random?board=${board}&class=${classLevel}&subject=${encodeURIComponent(subject)}&count=10`
+                );
+                const data = await res.json();
+                
+                flashcards = data.success ? data.data : [];
+                
+                document.getElementById('loadingState').style.display = 'none';
+                
+                if (flashcards.length > 0) {
+                    document.getElementById('flashcardArea').style.display = 'block';
+                    currentIndex = 0;
+                    easyCount = mediumCount = hardCount = 0;
+                    updateStats();
+                    showCard(0);
+                } else {
+                    alert('No flashcards found for this selection');
+                    document.getElementById('selectionPanel').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error loading flashcards:', error);
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('selectionPanel').style.display = 'block';
+                alert('Failed to load flashcards');
+            }
+        }
+        
+        function showCard(index) {
+            const card = flashcards[index];
+            if (!card) return;
+            
+            document.getElementById('cardTopic').textContent = `Chapter ${card.chapter} - ${card.topic}`;
+            document.getElementById('cardQuestion').textContent = card.question;
+            document.getElementById('cardAnswer').textContent = card.answer;
+            document.getElementById('cardHint').textContent = `💡 Hint: ${card.hint}`;
+            
+            // Reset flip
+            document.getElementById('flashcard').classList.remove('flipped');
+            
+            // Update progress
+            document.getElementById('progressIndicator').textContent = `${index + 1} / ${flashcards.length}`;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === flashcards.length - 1;
+        }
+        
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showCard(currentIndex);
+            }
+        }
+        
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                showCard(currentIndex);
+            }
+        }
+        
+        function markEasy() {
+            easyCount++;
+            updateStats();
+            nextCard();
+        }
+        
+        function markMedium() {
+            mediumCount++;
+            updateStats();
+            nextCard();
+        }
+        
+        function markDifficult() {
+            hardCount++;
+            updateStats();
+            nextCard();
+        }
+        
+        function updateStats() {
+            document.getElementById('statEasy').textContent = easyCount;
+            document.getElementById('statMedium').textContent = mediumCount;
+            document.getElementById('statHard').textContent = hardCount;
+        }
+    </script>
+</body>
+</html>

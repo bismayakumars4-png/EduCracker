@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Previous Year Papers - Practice with past exam papers">
+    <title>Previous Year Papers - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Page-specific styles */
+        .papers-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .papers-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .papers-header h1 {
+            font-size: 2rem;
+            color: #1E40AF;
+            margin-bottom: 10px;
+        }
+        
+        .papers-header p {
+            color: #6B7280;
+        }
+        
+        /* Selection Panel */
+        .selection-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+        
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+        
+        .btn-load {
+            background: #3B82F6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-load:hover {
+            background: #1E40AF;
+        }
+        
+        /* Papers List */
+        .papers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .paper-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .paper-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        
+        .paper-info {
+            flex: 1;
+        }
+        
+        .paper-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+        
+        .paper-meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .paper-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #6B7280;
+            font-size: 0.9rem;
+        }
+        
+        .paper-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+        
+        .badge-board {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+        
+        .badge-year {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+        
+        .paper-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn-practice {
+            background: #10B981;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-practice:hover {
+            background: #059669;
+        }
+        
+        .btn-download {
+            background: #6B7280;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn-download:hover {
+            background: #4B5563;
+        }
+        
+        /* Exam Pattern Section */
+        .exam-pattern {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .exam-pattern h3 {
+            color: #1E40AF;
+            margin-bottom: 16px;
+        }
+        
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .pattern-item {
+            background: #F9FAFB;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .pattern-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3B82F6;
+        }
+        
+        .pattern-label {
+            color: #6B7280;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        
+        /* Year Filter */
+        .year-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .year-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #E5E7EB;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .year-btn:hover {
+            border-color: #3B82F6;
+        }
+        
+        .year-btn.active {
+            background: #3B82F6;
+            color: white;
+            border-color: #3B82F6;
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6B7280;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #E5E7EB;
+            border-top-color: #3B82F6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+        
+        /* Coming Soon */
+        .coming-soon {
+            text-align: center;
+            padding: 40px;
+            background: #FEF3C7;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .coming-soon h3 {
+            color: #92400E;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">EduCracker</span>
+                </a>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <span></span>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Learn</span>
+                    <a href="dashboard.html" class="nav-item">
+                        <span class="nav-item-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="tests.html" class="nav-item">
+                        <span class="nav-item-icon">📝</span>
+                        My Tests
+                    </a>
+                    <a href="syllabus.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Syllabus
+                    </a>
+                    <a href="questions.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Questions
+                    </a>
+                    <a href="notes.html" class="nav-item">
+                        <span class="nav-item-icon">📒</span>
+                        Notes
+                    </a>
+                    <a href="formulas.html" class="nav-item">
+                        <span class="nav-item-icon">🔢</span>
+                        Formulas
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Practice</span>
+                    <a href="previous-papers.html" class="nav-item active">
+                        <span class="nav-item-icon">📜</span>
+                        PYQs
+                    </a>
+                    <a href="sample-papers.html" class="nav-item">
+                        <span class="nav-item-icon">📄</span>
+                        Sample Papers
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Progress</span>
+                    <a href="achievements.html" class="nav-item">
+                        <span class="nav-item-icon">🎖️</span>
+                        Achievements
+                    </a>
+                    <a href="leaderboard.html" class="nav-item">
+                        <span class="nav-item-icon">🏆</span>
+                        Leaderboard
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <span class="nav-item-icon">📋</span>
+                        Results
+                    </a>
+                    <a href="analytics.html" class="nav-item">
+                        <span class="nav-item-icon">📈</span>
+                        Analytics
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Support</span>
+                    <a href="help.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Help
+                    </a>
+                    <a href="settings.html" class="nav-item">
+                        <span class="nav-item-icon">⚙️</span>
+                        Settings
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="dashboard-header">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span></span>
+                </button>
+                <h1 class="page-title">Previous Year Papers</h1>
+            </header>
+
+            <!-- Papers Content -->
+            <div class="papers-container">
+                <!-- Header -->
+                <div class="papers-header">
+                    <h1>📜 Previous Year Question Papers</h1>
+                    <p>Practice with real exam papers from previous years to understand the pattern and difficulty level</p>
+                </div>
+
+                <!-- Selection Panel -->
+                <div class="selection-panel">
+                    <div class="selection-grid">
+                        <div class="form-group">
+                            <label for="boardSelect">Board</label>
+                            <select id="boardSelect">
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="classSelect">Class</label>
+                            <select id="classSelect">
+                                <option value="">Select</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subjectSelect">Subject</label>
+                            <select id="subjectSelect" disabled>
+                                <option value="">Select Board First</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn-load" id="loadPapersBtn">Find Papers</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exam Pattern Info -->
+                <div class="exam-pattern" id="examPattern" style="display: none;">
+                    <h3>📊 Exam Pattern</h3>
+                    <div class="pattern-grid">
+                        <div class="pattern-item">
+                            <div class="pattern-value" id="patternDuration">180</div>
+                            <div class="pattern-label">Minutes</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-value" id="patternMarks">100</div>
+                            <div class="pattern-label">Total Marks</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-value" id="patternQuestions">-</div>
+                            <div class="pattern-label">Questions</div>
+                        </div>
+                        <div class="pattern-item">
+                            <div class="pattern-value" id="patternNegative">Yes</div>
+                            <div class="pattern-label">Negative Marking</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year Filter -->
+                <div class="year-filter" id="yearFilter" style="display: none;">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Loading previous year papers...</p>
+                </div>
+
+                <!-- Papers List -->
+                <div id="papersList" class="papers-list">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Coming Soon -->
+                <div class="coming-soon" id="comingSoon">
+                    <h3>🚀 Coming Soon!</h3>
+                    <p>We're working on adding previous year papers for all subjects and boards. Stay tuned!</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-state-icon">📜</div>
+                    <h3>No Papers Found</h3>
+                    <p>Select your board, class, and subject to find previous year papers</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/syllabus.js"></script>
+    <script>
+        // Mock previous year papers data (in real app, this would come from API)
+        const mockPapers = [
+            {
+                id: 1,
+                title: "CBSE Class 12 Physics - 2024",
+                board: "CBSE",
+                year: 2024,
+                subject: "Physics",
+                classLevel: 12,
+                duration: 180,
+                totalMarks: 70,
+                questions: 35,
+                hasNegativeMarking: true
+            },
+            {
+                id: 2,
+                title: "CBSE Class 12 Physics - 2023",
+                board: "CBSE",
+                year: 2023,
+                subject: "Physics",
+                classLevel: 12,
+                duration: 180,
+                totalMarks: 70,
+                questions: 35,
+                hasNegativeMarking: true
+            },
+            {
+                id: 3,
+                title: "CBSE Class 12 Physics - 2022",
+                board: "CBSE",
+                year: 2022,
+                subject: "Physics",
+                classLevel: 12,
+                duration: 180,
+                totalMarks: 70,
+                questions: 35,
+                hasNegativeMarking: true
+            },
+            {
+                id: 4,
+                title: "HSE Odisha Class 12 Physics - 2024",
+                board: "HSE_ODISHA",
+                year: 2024,
+                subject: "Physics",
+                classLevel: 12,
+                duration: 150,
+                totalMarks: 60,
+                questions: 30,
+                hasNegativeMarking: false
+            },
+            {
+                id: 5,
+                title: "CBSE Class 12 Mathematics - 2024",
+                board: "CBSE",
+                year: 2024,
+                subject: "Mathematics",
+                classLevel: 12,
+                duration: 180,
+                totalMarks: 80,
+                questions: 36,
+                hasNegativeMarking: true
+            },
+            {
+                id: 6,
+                title: "CBSE Class 12 Chemistry - 2024",
+                board: "CBSE",
+                year: 2024,
+                subject: "Chemistry",
+                classLevel: 12,
+                duration: 180,
+                totalMarks: 70,
+                questions: 35,
+                hasNegativeMarking: true
+            },
+            {
+                id: 7,
+                title: "CBSE Class 10 Mathematics - 2024",
+                board: "CBSE",
+                year: 2024,
+                subject: "Mathematics",
+                classLevel: 10,
+                duration: 180,
+                totalMarks: 80,
+                questions: 38,
+                hasNegativeMarking: false
+            },
+            {
+                id: 8,
+                title: "CBSE Class 10 Science - 2024",
+                board: "CBSE",
+                year: 2024,
+                subject: "Science",
+                classLevel: 10,
+                duration: 180,
+                totalMarks: 80,
+                questions: 40,
+                hasNegativeMarking: false
+            }
+        ];
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initPage();
+        });
+
+        function initPage() {
+            initSelectors();
+            setupEventListeners();
+        }
+
+        function initSelectors() {
+            const boardSelect = document.getElementById('boardSelect');
+            const classSelect = document.getElementById('classSelect');
+            
+            // Load boards
+            Syllabus.getBoards().then(boards => {
+                boardSelect.innerHTML = '<option value="">Select Board</option>';
+                boards.forEach(board => {
+                    const option = document.createElement('option');
+                    option.value = board.code;
+                    option.textContent = board.name;
+                    boardSelect.appendChild(option);
+                });
+            });
+            
+            // Load classes
+            classSelect.innerHTML = '<option value="">Select Class</option>';
+            for (let i = 6; i <= 12; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Class ${i}`;
+                classSelect.appendChild(option);
+            }
+        }
+
+        function setupEventListeners() {
+            // Board change - load subjects
+            document.getElementById('boardSelect').addEventListener('change', async function() {
+                const board = this.value;
+                const classLevel = document.getElementById('classSelect').value;
+                const subjectSelect = document.getElementById('subjectSelect');
+                
+                if (board && classLevel) {
+                    const subjects = await Syllabus.getSubjects(board, classLevel);
+                    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                    subjects.forEach(subject => {
+                        const option = document.createElement('option');
+                        option.value = subject;
+                        option.textContent = subject;
+                        subjectSelect.appendChild(option);
+                    });
+                    subjectSelect.disabled = false;
+                } else {
+                    subjectSelect.innerHTML = '<option value="">Select Board & Class First</option>';
+                    subjectSelect.disabled = true;
+                }
+            });
+
+            // Class change
+            document.getElementById('classSelect').addEventListener('change', async function() {
+                const board = document.getElementById('boardSelect').value;
+                const classLevel = this.value;
+                const subjectSelect = document.getElementById('subjectSelect');
+                
+                if (board && classLevel) {
+                    const subjects = await Syllabus.getSubjects(board, classLevel);
+                    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                    subjects.forEach(subject => {
+                        const option = document.createElement('option');
+                        option.value = subject;
+                        option.textContent = subject;
+                        subjectSelect.appendChild(option);
+                    });
+                    subjectSelect.disabled = false;
+                } else {
+                    subjectSelect.innerHTML = '<option value="">Select Board & Class First</option>';
+                    subjectSelect.disabled = true;
+                }
+            });
+
+            // Load papers button
+            document.getElementById('loadPapersBtn').addEventListener('click', loadPapers);
+        }
+
+        function loadPapers() {
+            const board = document.getElementById('boardSelect').value;
+            const classLevel = document.getElementById('classSelect').value;
+            const subject = document.getElementById('subjectSelect').value;
+            
+            if (!board || !classLevel || !subject) {
+                alert('Please select board, class, and subject');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loadingState').style.display = 'block';
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('papersList').innerHTML = '';
+            document.getElementById('comingSoon').style.display = 'none';
+            
+            // Filter papers
+            setTimeout(() => {
+                const filtered = mockPapers.filter(p => 
+                    p.board === board && 
+                    p.classLevel === parseInt(classLevel) && 
+                    p.subject === subject
+                );
+                
+                document.getElementById('loadingState').style.display = 'none';
+                
+                if (filtered.length > 0) {
+                    // Show exam pattern
+                    document.getElementById('examPattern').style.display = 'block';
+                    document.getElementById('patternDuration').textContent = filtered[0].duration;
+                    document.getElementById('patternMarks').textContent = filtered[0].totalMarks;
+                    document.getElementById('patternQuestions').textContent = filtered[0].questions;
+                    document.getElementById('patternNegative').textContent = filtered[0].hasNegativeMarking ? 'Yes' : 'No';
+                    
+                    // Render year filter
+                    renderYearFilter(filtered);
+                    
+                    // Render papers
+                    renderPapers(filtered);
+                } else {
+                    // Show coming soon
+                    document.getElementById('examPattern').style.display = 'none';
+                    document.getElementById('yearFilter').style.display = 'none';
+                    document.getElementById('comingSoon').style.display = 'block';
+                    document.getElementById('comingSoon').innerHTML = `
+                        <h3>🚀 Coming Soon!</h3>
+                        <p>Previous year papers for ${subject} (${board} Class ${classLevel}) are being added. Check back soon!</p>
+                    `;
+                }
+            }, 500);
+        }
+
+        function renderYearFilter(papers) {
+            const container = document.getElementById('yearFilter');
+            const years = [...new Set(papers.map(p => p.year))].sort((a, b) => b - a);
+            
+            container.innerHTML = `
+                <button class="year-btn active" data-year="all">All Years</button>
+                ${years.map(year => `
+                    <button class="year-btn" data-year="${year}">${year}</button>
+                `).join('')}
+            `;
+            container.style.display = 'flex';
+            
+            // Add click handlers
+            container.querySelectorAll('.year-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    container.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const year = this.dataset.year;
+                    if (year === 'all') {
+                        renderPapers(papers);
+                    } else {
+                        renderPapers(papers.filter(p => p.year === parseInt(year)));
+                    }
+                });
+            });
+        }
+
+        function renderPapers(papers) {
+            const container = document.getElementById('papersList');
+            
+            if (papers.length === 0) {
+                container.innerHTML = '<p style="color: #6B7280;">No papers found</p>';
+                return;
+            }
+            
+            container.innerHTML = papers.map(paper => `
+                <div class="paper-card">
+                    <div class="paper-info">
+                        <h3 class="paper-title">${paper.title}</h3>
+                        <div class="paper-meta">
+                            <span class="paper-badge badge-board">${paper.board.replace('_', ' ')}</span>
+                            <span class="paper-badge badge-year">${paper.year}</span>
+                            <span>📝 ${paper.questions} Questions</span>
+                            <span>⏱️ ${paper.duration} min</span>
+                            <span>📊 ${paper.totalMarks} marks</span>
+                        </div>
+                    </div>
+                    <div class="paper-actions">
+                        <button class="btn-practice" onclick="startPractice(${paper.id})">Practice Now</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function startPractice(paperId) {
+            alert(`Starting practice for paper ${paperId}! This would redirect to the test engine.`);
+            // In real app: window.location.href = `take-test.html?paper=${paperId}`;
+        }
+    </script>
+</body>
+</html>

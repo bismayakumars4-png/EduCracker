@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduCracker Dashboard - Track your exam preparation progress">
+    <title>Dashboard - EduCracker</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/ai-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">
+                        <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="16" r="14" fill="#3B82F6"/>
+                            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span class="logo-text">EduCracker</span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Learn</span>
+                    <a href="dashboard.html" class="nav-item active">
+                        <span class="nav-item-icon">📊</span>
+                        Dashboard
+                    </a>
+                    <a href="tests.html" class="nav-item">
+                        <span class="nav-item-icon">📝</span>
+                        My Tests
+                    </a>
+                    <a href="questions.html" class="nav-item">
+                        <span class="nav-item-icon">🎯</span>
+                        Practice Questions
+                    </a>
+                    <a href="syllabus.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Syllabus
+                    </a>
+                    <a href="formulas.html" class="nav-item">
+                        <span class="nav-item-icon">🔢</span>
+                        Formulas
+                    </a>
+                    <a href="flashcards.html" class="nav-item">
+                        <span class="nav-item-icon">🎴</span>
+                        Flashcards
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Practice</span>
+                    <a href="previous-papers.html" class="nav-item">
+                        <span class="nav-item-icon">📜</span>
+                        PYQs
+                    </a>
+                    <a href="sample-papers.html" class="nav-item">
+                        <span class="nav-item-icon">📄</span>
+                        Sample Papers
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Progress</span>
+                    <a href="#" class="nav-item" data-premium-lock="true">
+                        <span class="nav-item-icon">📈</span>
+                        Analytics
+                    </a>
+                    <a href="achievements.html" class="nav-item">
+                        <span class="nav-item-icon">🎖️</span>
+                        Achievements
+                    </a>
+                    <a href="leaderboard.html" class="nav-item">
+                        <span class="nav-item-icon">🏆</span>
+                        Leaderboard
+                    </a>
+                    <a href="results.html" class="nav-item">
+                        <span class="nav-item-icon">📋</span>
+                        Results
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Resources</span>
+                    <a href="notes.html" class="nav-item">
+                        <span class="nav-item-icon">📖</span>
+                        Notes
+                    </a>
+                    <a href="bookmarks.html" class="nav-item">
+                        <span class="nav-item-icon">🔖</span>
+                        Bookmarks
+                    </a>
+                    <a href="schedule.html" class="nav-item">
+                        <span class="nav-item-icon">📅</span>
+                        Schedule
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <span class="nav-section-title">Account</span>
+                    <a href="pricing.html" class="nav-item">
+                        <span class="nav-item-icon">💎</span>
+                        Pricing
+                    </a>
+                    <a href="profile.html" class="nav-item">
+                        <span class="nav-item-icon">👤</span>
+                        Profile
+                    </a>
+                    <a href="settings.html" class="nav-item">
+                        <span class="nav-item-icon">⚙️</span>
+                        Settings
+                    </a>
+                    <a href="help.html" class="nav-item">
+                        <span class="nav-item-icon">❓</span>
+                        Help & Support
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">John Doe</div>
+                        <div class="user-role" id="userRole">Student</div>
+                    </div>
+                </div>
+                <a href="index.html" class="logout-btn" title="Logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16,17 21,12 16,7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <nav class="top-navbar">
+                <div class="navbar-left">
+                    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                    <h1 class="page-title">Dashboard</h1>
+                </div>
+                
+                <div class="navbar-right">
+                    <div id="planBadgeContainer">
+                        <!-- Plan badge will be dynamically inserted here -->
+                    </div>
+                    <div class="search-box">
+                        <label for="dashboardSearch" class="visually-hidden">Search tests, notes</label>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                        <input type="text" id="dashboardSearch" name="search" placeholder="Search tests, notes...">
+                    </div>
+                    <button class="notification-btn" aria-label="Notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Welcome Card -->
+                <div class="welcome-card" id="welcomeCard">
+                    <div class="welcome-header">
+                        <div>
+                            <h2 class="welcome-title" id="welcomeTitle">Welcome back<span class="skeleton-text">...</span></h2>
+                            <p class="welcome-text" id="welcomeText">Loading your progress...</p>
+                        </div>
+                        <div class="streak-badge" id="streakBadge">
+                            <span class="streak-icon">🔥</span>
+                            <span class="streak-count" id="streakCount">--</span>
+                            <span class="streak-label">Day Streak</span>
+                        </div>
+                    </div>
+                    <div class="welcome-stats">
+                        <div class="welcome-stat">
+                            <div class="welcome-stat-icon blue">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22,4 12,14.01 9,11.01"/>
+                                </svg>
+                            </div>
+                            <div class="welcome-stat-value" id="avgScoreValue">--</div>
+                            <div class="welcome-stat-label">Avg. Score</div>
+                        </div>
+                        <div class="welcome-stat">
+                            <div class="welcome-stat-icon green">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/>
+                                    <line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
+                            </div>
+                            <div class="welcome-stat-value" id="testsCompletedValue">--</div>
+                            <div class="welcome-stat-label">Tests Completed</div>
+                        </div>
+                        <div class="welcome-stat">
+                            <div class="welcome-stat-icon purple">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12,6 12,12 16,14"/>
+                                </svg>
+                            </div>
+                            <div class="welcome-stat-value" id="studyTimeValue">--</div>
+                            <div class="welcome-stat-label">Study Time</div>
+                        </div>
+                        <div class="welcome-stat">
+                            <div class="welcome-stat-icon orange">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                                </svg>
+                            </div>
+                            <div class="welcome-stat-value" id="rankValue">#--</div>
+                            <div class="welcome-stat-label">Rank</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions Bar -->
+                <div class="quick-actions-bar">
+                    <h3 class="quick-actions-title">Quick Actions</h3>
+                    <div class="quick-actions-grid">
+                        <a href="tests.html" class="quick-action-item">
+                            <span class="quick-action-icon">📝</span>
+                            <span>Start Mock Test</span>
+                        </a>
+                        <a href="questions.html" class="quick-action-item">
+                            <span class="quick-action-icon">🎯</span>
+                            <span>Practice Questions</span>
+                        </a>
+                        <a href="analytics.html" class="quick-action-item">
+                            <span class="quick-action-icon">📊</span>
+                            <span>View Analytics</span>
+                        </a>
+                        <a href="notes.html" class="quick-action-item">
+                            <span class="quick-action-icon">📚</span>
+                            <span>Study Materials</span>
+                        </a>
+                        <a href="leaderboard.html" class="quick-action-item">
+                            <span class="quick-action-icon">🏆</span>
+                            <span>Leaderboard</span>
+                        </a>
+                        <a href="achievements.html" class="quick-action-item">
+                            <span class="quick-action-icon">🎖️</span>
+                            <span>Achievements</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Empty State Examples (for demonstration - remove when real data exists) -->
+                <div class="empty-states-demo" style="margin-top: 2rem;">
+                    <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: var(--neutral-800);">Empty States (Demo)</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        
+                        <!-- Empty Tests -->
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <h4 class="empty-state-title">No Tests Yet</h4>
+                            <p class="empty-state-description">Start your first test to track your progress and see how you perform.</p>
+                            <button class="empty-state-cta">Start Your First Test</button>
+                        </div>
+                        
+                        <!-- Empty Analytics -->
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📈</div>
+                            <h4 class="empty-state-title">No Analytics Data</h4>
+                            <p class="empty-state-description">Complete some tests to see your performance analytics and insights.</p>
+                            <button class="empty-state-cta">View Analytics</button>
+                        </div>
+                        
+                        <!-- Empty Results -->
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🏅</div>
+                            <h4 class="empty-state-title">No Results Yet</h4>
+                            <p class="empty-state-description">Your test results will appear here once you complete your first exam.</p>
+                            <button class="empty-state-cta">Browse Tests</button>
+                        </div>
+                        
+                        <!-- Empty Bookmarks -->
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🔖</div>
+                            <h4 class="empty-state-title">No Bookmarks</h4>
+                            <p class="empty-state-description">Save questions and study materials to access them quickly later.</p>
+                            <button class="empty-state-cta">Explore Questions</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- Main Dashboard Grid -->
+                <div class="dashboard-grid">
+                    <!-- Performance Overview -->
+                    <div class="performance-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Performance Overview</h3>
+                            <select id="performanceFilter" name="performanceFilter" class="card-filter">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>All Time</option>
+                            </select>
+                        </div>
+                        <div class="performance-chart">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                        <div class="performance-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Average Score</span>
+                                <span class="summary-value" id="chartAvgScore">--%</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Improvement</span>
+                                <span class="summary-value positive" id="chartImprovement">+0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Tests -->
+                    <div class="upcoming-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Upcoming Tests</h3>
+                            <a href="tests.html" class="view-all">View All</a>
+                        </div>
+                        <div class="upcoming-list">
+                            <div class="upcoming-item">
+                                <div class="upcoming-icon math">
+                                    <span>∑</span>
+                                </div>
+                                <div class="upcoming-details">
+                                    <h4>Mathematics Mock Test</h4>
+                                    <p>50 Questions • 60 min</p>
+                                </div>
+                                <div class="upcoming-time">
+                                    <span class="time-badge">Tomorrow</span>
+                                </div>
+                            </div>
+                            <div class="upcoming-item">
+                                <div class="upcoming-icon physics">
+                                    <span>⚛</span>
+                                </div>
+                                <div class="upcoming-details">
+                                    <h4>Physics Chapter Test</h4>
+                                    <p>30 Questions • 45 min</p>
+                                </div>
+                                <div class="upcoming-time">
+                                    <span class="time-badge">In 2 days</span>
+                                </div>
+                            </div>
+                            <div class="upcoming-item">
+                                <div class="upcoming-icon chemistry">
+                                    <span>🧪</span>
+                                </div>
+                                <div class="upcoming-details">
+                                    <h4>Chemistry Quiz</h4>
+                                    <p>25 Questions • 30 min</p>
+                                </div>
+                                <div class="upcoming-time">
+                                    <span class="time-badge">Next Week</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second Row -->
+                <div class="dashboard-grid-2">
+                    <!-- Subject Performance -->
+                    <div class="subjects-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Subject Performance</h3>
+                            <a href="dashboard.html" class="view-all">Details</a>
+                        </div>
+                        <div class="subjects-list">
+                            <div class="subject-item">
+                                <div class="subject-info">
+                                    <span class="subject-icon">📐</span>
+                                    <span class="subject-name">Mathematics</span>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar-sm">
+                                        <div class="progress-fill-sm" style="width: 85%"></div>
+                                    </div>
+                                    <span class="subject-score">85%</span>
+                                </div>
+                            </div>
+                            <div class="subject-item">
+                                <div class="subject-info">
+                                    <span class="subject-icon">⚛️</span>
+                                    <span class="subject-name">Physics</span>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar-sm">
+                                        <div class="progress-fill-sm" style="width: 72%"></div>
+                                    </div>
+                                    <span class="subject-score">72%</span>
+                                </div>
+                            </div>
+                            <div class="subject-item">
+                                <div class="subject-info">
+                                    <span class="subject-icon">🧪</span>
+                                    <span class="subject-name">Chemistry</span>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar-sm">
+                                        <div class="progress-fill-sm" style="width: 68%"></div>
+                                    </div>
+                                    <span class="subject-score">68%</span>
+                                </div>
+                            </div>
+                            <div class="subject-item">
+                                <div class="subject-info">
+                                    <span class="subject-icon">📖</span>
+                                    <span class="subject-name">English</span>
+                                </div>
+                                <div class="subject-progress">
+                                    <div class="progress-bar-sm">
+                                        <div class="progress-fill-sm" style="width: 90%"></div>
+                                    </div>
+                                    <span class="subject-score">90%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Weak Areas -->
+                    <div class="weak-areas-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Areas to Improve</h3>
+                            <a href="tests.html" class="view-all">Practice Now</a>
+                        </div>
+                        <div class="weak-areas-list">
+                            <div class="weak-area-item">
+                                <div class="weak-area-info">
+                                    <span class="weak-area-icon">📊</span>
+                                    <div>
+                                        <h4>Statistics</h4>
+                                        <p>15 questions, 60% accuracy</p>
+                                    </div>
+                                </div>
+                                <button class="practice-btn">Practice</button>
+                            </div>
+                            <div class="weak-area-item">
+                                <div class="weak-area-info">
+                                    <span class="weak-area-icon">⚡</span>
+                                    <div>
+                                        <h4>Current Electricity</h4>
+                                        <p>12 questions, 55% accuracy</p>
+                                    </div>
+                                </div>
+                                <button class="practice-btn">Practice</button>
+                            </div>
+                            <div class="weak-area-item">
+                                <div class="weak-area-info">
+                                    <span class="weak-area-icon">🔬</span>
+                                    <div>
+                                        <h4>Organic Chemistry</h4>
+                                        <p>18 questions, 50% accuracy</p>
+                                    </div>
+                                </div>
+                                <button class="practice-btn">Practice</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="activity-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Activity</h3>
+                            <a href="results.html" class="view-all">View All</a>
+                        </div>
+                        <div class="activity-list" id="recentActivityList">
+                            <div class="activity-item">
+                                <div class="activity-icon exam">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14,2 14,8 20,8"/>
+                                        <line x1="16" y1="13" x2="8" y2="13"/>
+                                        <line x1="16" y1="17" x2="8" y2="17"/>
+                                    </svg>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Completed Mathematics Mock Test</div>
+                                    <div class="activity-meta">
+                                        <span class="activity-time">2 hours ago</span>
+                                        <span class="activity-score success">Score: 92%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon quiz">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                                    </svg>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Started Physics Practice Quiz</div>
+                                    <div class="activity-meta">
+                                        <span class="activity-time">5 hours ago</span>
+                                        <span class="activity-score">In Progress</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon note">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                    </svg>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Added Notes to Bookmarks</div>
+                                    <div class="activity-meta">
+                                        <span class="activity-time">Yesterday</span>
+                                        <span class="activity-score">5 items</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon streak">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                                    </svg>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Reached 12-Day Streak!</div>
+                                    <div class="activity-meta">
+                                        <span class="activity-time">2 days ago</span>
+                                        <span class="activity-score success">Milestone</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Third Row -->
+                <div class="dashboard-grid-3">
+                    <!-- Study Plan -->
+                    <div class="study-plan-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Your Study Plan</h3>
+                            <a href="dashboard.html" class="view-all">Edit Plan</a>
+                        </div>
+                        <div class="study-plan-progress">
+                            <div class="plan-overall">
+                                <span class="plan-label">Overall Progress</span>
+                                <span class="plan-value">68%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 68%"></div>
+                            </div>
+                        </div>
+                        <div class="study-plan-items">
+                            <div class="plan-item completed">
+                                <div class="plan-item-icon">✓</div>
+                                <div class="plan-item-content">
+                                    <h4>Complete Mathematics Chapters 1-5</h4>
+                                    <p>5/5 completed</p>
+                                </div>
+                            </div>
+                            <div class="plan-item in-progress">
+                                <div class="plan-item-icon">◐</div>
+                                <div class="plan-item-content">
+                                    <h4>Physics: Mechanics Basics</h4>
+                                    <p>3/4 completed</p>
+                                </div>
+                            </div>
+                            <div class="plan-item pending">
+                                <div class="plan-item-icon">○</div>
+                                <div class="plan-item-content">
+                                    <h4>Chemistry: Organic Reactions</h4>
+                                    <p>0/3 completed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recommended Tests -->
+                    <div class="recommended-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Recommended For You</h3>
+                            <a href="tests.html" class="view-all">See All</a>
+                        </div>
+                        <div class="recommended-list">
+                            <div class="recommended-item">
+                                <div class="recommended-icon">📊</div>
+                                <div class="recommended-content">
+                                    <h4>JEE Main Full Mock</h4>
+                                    <p>90 Questions • 3 hours</p>
+                                    <div class="recommended-meta">
+                                        <span class="difficulty-tag hard">Hard</span>
+                                        <span class="attempts">1245 attempted</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline">Start</button>
+                            </div>
+                            <div class="recommended-item">
+                                <div class="recommended-icon">🧮</div>
+                                <div class="recommended-content">
+                                    <h4>Calculus Chapter Test</h4>
+                                    <p>30 Questions • 45 min</p>
+                                    <div class="recommended-meta">
+                                        <span class="difficulty-tag medium">Medium</span>
+                                        <span class="attempts">892 attempted</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline">Start</button>
+                            </div>
+                            <div class="recommended-item">
+                                <div class="recommended-icon">⚡</div>
+                                <div class="recommended-content">
+                                    <h4>Quick Practice: Electricity</h4>
+                                    <p>15 Questions • 20 min</p>
+                                    <div class="recommended-meta">
+                                        <span class="difficulty-tag easy">Easy</span>
+                                        <span class="attempts">2103 attempted</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline">Start</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Feature Lock Modal -->
+    <div class="modal" id="featureLockModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container modal-sm">
+            <div class="modal-header">
+                <h3 class="modal-title">Premium Feature</h3>
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="feature-lock-content">
+                    <div class="feature-lock-icon">🔒</div>
+                    <h4>Unlock This Feature</h4>
+                    <p>This feature is available exclusively for Premium members.</p>
+                    <ul class="premium-benefits">
+                        <li>✓ Unlimited access</li>
+                        <li>✓ Advanced analytics</li>
+                        <li>✓ AI recommendations</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="closeFeatureLock">Maybe Later</button>
+                <a href="pricing.html" class="btn btn-primary">Upgrade Now</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/premium.js"></script>
+    <script src="../js/ai-assistant.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

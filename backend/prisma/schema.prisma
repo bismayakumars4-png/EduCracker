@@ -1,0 +1,503 @@
+// ========================================
+// EduCracker Prisma Schema
+// SQLite Database Configuration
+// ========================================
+
+// Generator configuration
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Datasource configuration
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ========================================
+// User Model
+// ========================================
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String? // Optional - not required for Google OAuth users
+  googleId  String? @unique // Google OAuth ID
+  firstName String
+  lastName  String
+  role      String  @default("STUDENT")
+  avatar    String?
+  isActive  Boolean @default(true)
+
+  // Educational Profile
+  board      String? // CBSE, HSE_ODISHA, ICSE, BSE_ODISHA, etc.
+  classLevel Int? // 6, 7, 8, 9, 10, 11, 12
+  targetExam String? // NEET, JEE, CBSE_BOARD, etc.
+
+  // Plan & Subscription
+  plan          String    @default("FREE") // FREE, PRO
+  planExpiresAt DateTime?
+
+  // Usage Tracking (reset daily for free users)
+  aiNotesUsedToday   Int      @default(0)
+  aiNotesResetAt     DateTime @default(now())
+  mockTestsUsedToday Int      @default(0)
+  mockTestsResetAt   DateTime @default(now())
+
+  // XP and Gamification
+  xp             Int       @default(0)
+  streak         Int       @default(0)
+  lastActiveDate DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  notes           Note[]
+  testResults     TestResult[]
+  questions       Question[]
+  bookmarks       Bookmark[]
+  chapterProgress ChapterProgress[]
+  weakTopics      WeakTopic[]
+
+  @@map("users")
+}
+
+// ========================================
+// Board Model
+// ========================================
+model Board {
+  id          Int     @id @default(autoincrement())
+  name        String // e.g., "CBSE", "HSE Odisha", "ICSE"
+  code        String  @unique // e.g., "CBSE", "HSE_ODISHA", "ICSE"
+  description String?
+  isActive    Boolean @default(true)
+
+  // Relations
+  subjects       Subject[]
+  questionPapers QuestionPaper[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("boards")
+}
+
+// ========================================
+// Subject Model
+// ========================================
+model Subject {
+  id          Int     @id @default(autoincrement())
+  name        String // e.g., "Physics", "Mathematics", "Chemistry"
+  code        String // e.g., "PHY", "MATH", "CHEM"
+  description String?
+  icon        String? // Icon name for UI
+
+  // Foreign Key
+  boardId Int
+  board   Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  // Relations
+  chapters Chapter[]
+  topics   Topic[]
+  formulas Formula[]
+
+  // Class levels available (stored as JSON)
+  classes String // e.g., "[9,10,11,12]"
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([boardId, code])
+  @@map("subjects")
+}
+
+// ========================================
+// Chapter Model
+// ========================================
+model Chapter {
+  id          Int     @id @default(autoincrement())
+  name        String
+  number      Int // Chapter number in textbook
+  description String?
+
+  // Foreign Keys
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  // Weightage & Exam Info
+  weightage  Float  @default(0) // Expected marks weightage in exam
+  difficulty String @default("MEDIUM") // EASY, MEDIUM, HARD
+
+  // Relations
+  topics    Topic[]
+  questions Question[]
+  formulas  Formula[]
+  pyqs      PreviousYearQuestion[]
+
+  isActive        Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  ChapterProgress ChapterProgress[]
+  Note            Note[]
+  Test            Test[]
+
+  @@unique([subjectId, number])
+  @@map("chapters")
+}
+
+// ========================================
+// Topic Model (sub-topics within chapters)
+// ========================================
+model Topic {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+
+  // Foreign Keys
+  chapterId Int?
+  chapter   Chapter? @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  // Relations
+  questions Question[]
+
+  // Exam importance (1-5)
+  importance Int @default(3)
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("topics")
+}
+
+// ========================================
+// Question Model (Enhanced for exam prep)
+// ========================================
+model Question {
+  id            Int     @id @default(autoincrement())
+  questionText  String
+  options       String // JSON stored as string: {"A": "...", "B": "...", "C": "...", "D": "..."}
+  correctAnswer Int // Index of correct option (0=A, 1=B, 2=C, 3=D)
+  explanation   String?
+
+  // Exam metadata
+  difficulty    String @default("MEDIUM") // EASY, MEDIUM, HARD
+  questionType  String @default("MCQ") // MCQ, NUMERICAL, ASSERTION, etc.
+  marks         Int    @default(1) // Marks for this question
+  negativeMarks Float  @default(0.25) // Negative marking (if any)
+
+  // Categorization
+  subject   String
+  chapterId Int?
+  chapter   Chapter? @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+  topicId   Int?
+  topic     Topic?   @relation(fields: [topicId], references: [id], onDelete: SetNull)
+
+  // Tags for filtering
+  tags        String? // Comma-separated tags
+  isImportant Boolean @default(false)
+
+  // Source
+  source String? // e.g., "NCERT", "Previous Year", "Sample Paper"
+
+  // User who added (for custom questions)
+  userId Int?
+  user   User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  // Relations
+  bookmarks Bookmark[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("questions")
+}
+
+// ========================================
+// Formula Model (Quick revision formulas)
+// ========================================
+model Formula {
+  id          Int     @id @default(autoincrement())
+  title       String
+  formula     String // The actual formula
+  description String? // How to use
+
+  // Foreign Keys
+  subjectId Int
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  chapterId Int?
+  chapter   Chapter? @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+
+  // Category
+  category String? // e.g., "Important", "Common", "Derivation"
+
+  // For quick access
+  isBookmarked Boolean @default(false)
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Bookmark  Bookmark[]
+
+  @@map("formulas")
+}
+
+// ========================================
+// Previous Year Question Paper
+// ========================================
+model QuestionPaper {
+  id       Int    @id @default(autoincrement())
+  title    String // e.g., "CBSE 2023 Class 12 Physics"
+  year     Int // e.g., 2023
+  examType String // e.g., "BOARD", "COMPETITIVE"
+
+  // Foreign Key
+  boardId Int
+  board   Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  subject    String
+  classLevel Int
+
+  // Paper details
+  totalMarks Int @default(100)
+  duration   Int @default(180) // minutes
+
+  // URL or content (stored as JSON with sections)
+  content String? // JSON with question IDs
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([boardId, year, subject, classLevel])
+  @@map("question_papers")
+}
+
+// ========================================
+// Previous Year Question (individual questions from PYQs)
+// ========================================
+model PreviousYearQuestion {
+  id            Int     @id @default(autoincrement())
+  questionText  String
+  options       String? // JSON for MCQs
+  correctAnswer String
+  explanation   String?
+
+  // Foreign Key
+  chapterId Int
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  // Source info
+  year      Int
+  paperCode String? // e.g., "SET 1", "CODE A"
+  marks     Int     @default(1)
+
+  // Question type
+  questionType String @default("MCQ")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("previous_year_questions")
+}
+
+// ========================================
+// Bookmark Model
+// ========================================
+model Bookmark {
+  id Int @id @default(autoincrement())
+
+  // Foreign Keys
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  questionId Int?
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  // Note reference
+  noteId Int?
+  note   Note? @relation(fields: [noteId], references: [id], onDelete: Cascade)
+
+  // For formula bookmarks
+  formulaId Int?
+  formula   Formula? @relation(fields: [formulaId], references: [id], onDelete: Cascade)
+
+  // Notes added by user
+  userNotes String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, questionId])
+  @@unique([userId, noteId])
+  @@unique([userId, formulaId])
+  @@map("bookmarks")
+}
+
+// ========================================
+// Chapter Progress (track student's progress per chapter)
+// ========================================
+model ChapterProgress {
+  id Int @id @default(autoincrement())
+
+  // Foreign Key
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Progress details
+  chapterId Int
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  // Stats
+  questionsAttempted Int   @default(0)
+  correctAnswers     Int   @default(0)
+  accuracy           Float @default(0)
+  avgTimeSpent       Int   @default(0) // seconds
+
+  // Status
+  status String @default("NOT_STARTED") // NOT_STARTED, IN_PROGRESS, COMPLETED
+
+  lastAttempt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([userId, chapterId])
+  @@map("chapter_progress")
+}
+
+// ========================================
+// Weak Topic Tracking
+// ========================================
+model WeakTopic {
+  id Int @id @default(autoincrement())
+
+  // Foreign Key
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Topic identification
+  subject   String
+  chapterId Int?
+  chapter   String? // Store as string to avoid relation issues
+  topicName String
+
+  // Weakness metrics
+  attempts Int   @default(0)
+  correct  Int   @default(0)
+  accuracy Float @default(0)
+
+  // Recommendations
+  recommendedQuestions Int     @default(5)
+  isImproved           Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("weak_topics")
+}
+
+// ========================================
+// Note Model
+// ========================================
+model Note {
+  id       Int     @id @default(autoincrement())
+  title    String
+  content  String
+  category String?
+  subject  String
+
+  // Chapter reference
+  chapterId Int?
+  chapter   Chapter? @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+
+  isPublic  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Foreign Key
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Bookmark relation
+  bookmarks Bookmark[]
+
+  @@map("notes")
+}
+
+// ========================================
+// Test Model
+// ========================================
+model Test {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+
+  // Test Configuration
+  testType  String   @default("PRACTICE") // PRACTICE, MOCK, PYQ, CHAPTER
+  subject   String?
+  chapterId Int?
+  chapter   Chapter? @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+
+  // Exam Pattern Settings
+  duration       Int @default(30) // Minutes
+  totalMarks     Int @default(100)
+  totalQuestions Int @default(0)
+
+  // Negative marking
+  negativeMarking          Boolean @default(true)
+  negativeMarksPerQuestion Float   @default(0.25)
+
+  // Sections (for subjects with multiple sections)
+  sections String? // JSON: [{"name": "Section A", "questions": 25, "marks": 25}]
+
+  // Question selection
+  difficultyDistribution String? // JSON: {"EASY": 10, "MEDIUM": 20, "HARD": 10}
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tests")
+}
+
+// ========================================
+// TestResult Model
+// ========================================
+model TestResult {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  testId    String // String test ID for flexibility
+  testTitle String?
+
+  // Scores
+  score            Int
+  totalQuestions   Int
+  correctAnswers   Int     @default(0)
+  incorrectAnswers Int     @default(0)
+  unanswered       Int     @default(0)
+  percentage       Float
+
+  // Timing
+  timeTaken          Int     // Seconds
+  avgTimePerQuestion Float   @default(0)
+
+  // Detailed analysis
+  subjectScores   String? // JSON: {"Physics": 80, "Chemistry": 70}
+  chapterAnalysis String? // JSON: [{"chapterId": 1, "correct": 5, "incorrect": 2}]
+
+  // Weak areas identified
+  weakTopics String? // JSON: ["Topic1", "Topic2"]
+
+  // Streak info
+  createdAt DateTime @default(now())
+
+  // Index for faster queries
+  @@index([userId])
+  @@map("test_results")
+}
