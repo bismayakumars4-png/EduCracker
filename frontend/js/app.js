@@ -17,10 +17,40 @@
             initForms();
             initPasswordStrength();
             initMobileSidebar();
+            handleOAuthCallback();
         } catch (error) {
             console.error('Error initializing app:', error);
         }
     });
+
+    /**
+     * Handle OAuth callback - process token from URL
+     */
+    function handleOAuthCallback() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+        const googleAuth = urlParams.get('googleAuth');
+        const error = urlParams.get('error');
+
+        if (error) {
+            showToast('Google authentication failed. Please try again.', 'error');
+            // Clean up URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            return;
+        }
+
+        if (token) {
+            // Store token
+            localStorage.setItem('authToken', token);
+            
+            if (googleAuth === 'true') {
+                showToast('Google login successful!', 'success');
+            }
+
+            // Clean up URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
 
     // ========================================
     // Toast Notification System
@@ -239,6 +269,32 @@
                 handleRegister(this);
             });
         }
+
+        // Google Login Button
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        if (googleLoginBtn) {
+            googleLoginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleGoogleLogin();
+            });
+        }
+
+        // Google Register Button
+        const googleRegisterBtn = document.getElementById('googleRegisterBtn');
+        if (googleRegisterBtn) {
+            googleRegisterBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleGoogleLogin();
+            });
+        }
+    }
+
+    /**
+     * Handle Google OAuth Login
+     */
+    function handleGoogleLogin() {
+        // Redirect to backend Google OAuth endpoint
+        window.location.href = '/api/user/auth/google';
     }
 
     /**

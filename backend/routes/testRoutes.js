@@ -8,10 +8,11 @@
 const express = require('express');
 const router = express.Router();
 const { prisma } = require('../db');
+const { authenticate } = require('../middleware/authMiddleware');
 
 // POST /api/tests/submit
 // Submit test results and save to database
-router.post('/submit', async (req, res) => {
+router.post('/submit', authenticate, async (req, res) => {
     try {
         console.log('[TestRoute] Received test submission request');
         console.log('[TestRoute] Body:', req.body);
@@ -28,47 +29,8 @@ router.post('/submit', async (req, res) => {
             });
         }
 
-        // Get userId from request (could be from auth middleware or as a field)
-        // For now, we'll accept userId in body or use a default test user
-        let userId = req.body.userId;
-
-        // If no userId provided, try to get from auth header or use a mock
-        if (!userId) {
-            // Try to get from authorization header (Bearer token could contain user info)
-            const authHeader = req.headers.authorization;
-            console.log('[TestRoute] No userId in body, checking headers:', authHeader ? 'Present' : 'Not present');
-
-            // For demo purposes, create or get a test user
-            // In production, this would come from proper JWT authentication
-            try {
-                // Check if we have any users, if not create a demo user
-                const existingUsers = await prisma.user.findFirst({
-                    where: { role: 'STUDENT' }
-                });
-
-                if (existingUsers) {
-                    userId = existingUsers.id;
-                    console.log('[TestRoute] Using existing student user:', userId);
-                } else {
-                    // Create a demo student user
-                    const newUser = await prisma.user.create({
-                        data: {
-                            email: 'demo@educracker.com',
-                            password: '$2a$10$demo', // Placeholder - in production would be hashed
-                            firstName: 'Demo',
-                            lastName: 'Student',
-                            role: 'STUDENT'
-                        }
-                    });
-                    userId = newUser.id;
-                    console.log('[TestRoute] Created demo user:', userId);
-                }
-            } catch (userError) {
-                console.log('[TestRoute] Error handling user:', userError.message);
-                // Use a default userId of 1 for fallback
-                userId = 1;
-            }
-        }
+        // Get userId from authenticated request
+        const userId = req.userId;
 
         console.log('[TestRoute] Saving test result for user:', userId);
 
@@ -145,7 +107,7 @@ router.get('/results', async (req, res) => {
 
 // GET /api/tests/results/:id
 // Get a specific test result
-router.get('/results/:id', async (req, res) => {
+router.get('/results/:id', authenticate, async (req, res) => {
     try {
         const resultId = parseInt(req.params.id);
         
@@ -176,13 +138,12 @@ router.get('/results/:id', async (req, res) => {
 
 // GET /api/tests/recent
 // Get recent test results for dashboard
-router.get('/recent', async (req, res) => {
+router.get('/recent', authenticate, async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 5;
-        const userId = req.query.userId || 1;
         
         const recentTests = await prisma.testResult.findMany({
-            where: { userId: parseInt(userId) },
+            where: { userId: req.userId },
             orderBy: { createdAt: 'desc' },
             take: limit
         });

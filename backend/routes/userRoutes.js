@@ -11,70 +11,7 @@ const { prisma } = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-
-// Configure Passport Google OAuth Strategy
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID || 'your_google_client_id',
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'your_google_client_secret',
-    callbackURL: process.env.GOOGLE_CALLBACK_URL || '/api/user/auth/google/callback'
-  },
-  async (accessToken, refreshToken, profile, done) => {
-    try {
-      // Check if user already exists
-      let user = await prisma.user.findUnique({
-        where: { email: profile.emails[0].value }
-      });
-
-      if (user) {
-        // Update user with Google ID if not already set
-        if (!user.googleId) {
-          user = await prisma.user.update({
-            where: { id: user.id },
-            data: { googleId: profile.id }
-          });
-        }
-        return done(null, user);
-      }
-
-      // Create new user with Google profile
-      const nameParts = profile.displayName.split(' ');
-      const firstName = nameParts[0] || 'Google';
-      const lastName = nameParts.slice(1).join(' ') || 'User';
-
-      user = await prisma.user.create({
-        data: {
-          email: profile.emails[0].value,
-          googleId: profile.id,
-          firstName: firstName,
-          lastName: lastName,
-          // No password for Google users
-          role: 'STUDENT'
-        }
-      });
-
-      return done(null, user);
-    } catch (error) {
-      console.error('[Google OAuth] Error:', error);
-      return done(error, null);
-    }
-  }
-));
-
-// Serialize user for session
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-// Deserialize user from session
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await prisma.user.findUnique({ where: { id } });
-    done(null, user);
-  } catch (error) {
-    done(error, null);
-  }
-});
+const { authenticate } = require('../middleware/authMiddleware');
 
 // ========================================
 // POST /api/user/register
@@ -174,14 +111,6 @@ router.post('/login', async (req, res) => {
             });
         }
 
-        // Check if user is a Google OAuth user (no password)
-        if (!user.password) {
-            return res.status(401).json({ 
-                success: false,
-                message: 'Please sign in with Google' 
-            });
-        }
-
         // Check password
         const isValidPassword = await bcrypt.compare(password, user.password);
 
@@ -228,18 +157,13 @@ router.post('/login', async (req, res) => {
 });
 
 // ========================================
-// Mock User ID (in production, get from session/token)
-// ========================================
-const MOCK_USER_ID = 1;
-
-// ========================================
 // GET /api/user/profile
 // Get current user profile
 // ========================================
-router.get('/profile', async (req, res) => {
+router.get('/profile', authenticate, async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
-            where: { id: MOCK_USER_ID },
+            where: { id: req.userId },
             select: {
                 id: true,
                 email: true,
@@ -277,10 +201,10 @@ router.get('/profile', async (req, res) => {
 // GET /api/user/plan
 // Get user subscription plan status
 // ========================================
-router.get('/plan', async (req, res) => {
+router.get('/plan', authenticate, async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
-            where: { id: MOCK_USER_ID },
+            where: { id: req.userId },
             select: {
                 plan: true,
                 planExpiresAt: true
@@ -325,12 +249,12 @@ router.get('/plan', async (req, res) => {
 // PUT /api/user/profile
 // Update user profile
 // ========================================
-router.put('/profile', async (req, res) => {
+router.put('/profile', authenticate, async (req, res) => {
     try {
         const { firstName, lastName, avatar } = req.body;
 
         const updatedUser = await prisma.user.update({
-            where: { id: MOCK_USER_ID },
+            where: { id: req.userId },
             data: {
                 firstName: firstName,
                 lastName: lastName,
@@ -356,72 +280,68 @@ router.put('/profile', async (req, res) => {
 });
 
 // ========================================
+// Google OAuth Routes
+// ========================================
+
 // GET /api/user/auth/google
 // Initiate Google OAuth flow
-// ========================================
-router.get('/auth/google', passport.authenticate('google', { 
-    scope: ['profile', 'email'] 
+router.get('/auth/google', passport.authenticate('google', {
+    scope: ['profile', 'email']
 }));
 
-// ========================================
 // GET /api/user/auth/google/callback
-// Google OAuth callback handler
-// ========================================
+// Handle Google OAuth callback
 router.get('/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/login?error=google_auth_failed' }),
+    passport.authenticate('google', { failureRedirect: '/login.html?error=google_auth_failed' }),
     async (req, res) => {
         try {
-            const user = req.user;
-            
-            // Generate JWT token
+            // Generate JWT token for the user
             const token = jwt.sign(
-                { userId: user.id, email: user.email },
+                { userId: req.user.id, email: req.user.email },
                 process.env.JWT_SECRET || 'default_secret',
                 { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
             );
 
             // Redirect to frontend with token
             const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-            res.redirect(`${frontendUrl}/pages/dashboard.html?token=${token}&googleAuth=true`);
+            res.redirect(`${frontendUrl}/dashboard.html?token=${token}&googleAuth=true`);
         } catch (error) {
             console.error('[Google OAuth Callback] Error:', error);
-            const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-            res.redirect(`${frontendUrl}/pages/login.html?error=auth_failed`);
+            res.redirect('/login.html?error=auth_failed');
         }
     }
 );
 
-// ========================================
-// POST /api/user/auth/google/token
-// Verify Google ID token (for frontend token-based auth)
-// ========================================
-router.post('/auth/google/token', async (req, res) => {
+// GET /api/user/auth/google/current
+// Get current user info for Google-authenticated users
+router.get('/auth/google/current', authenticate, async (req, res) => {
     try {
-        const { googleToken } = req.body;
+        const user = await prisma.user.findUnique({
+            where: { id: req.userId },
+            select: {
+                id: true,
+                email: true,
+                firstName: true,
+                lastName: true,
+                googleId: true,
+                avatar: true,
+                role: true,
+                plan: true
+            }
+        });
 
-        if (!googleToken) {
-            return res.status(400).json({ 
-                success: false,
-                message: 'Google token is required' 
-            });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
         }
 
-        // Note: In production, verify the Google token using Google's OAuth2 API
-        // For simplicity, we'll create a mock verification here
-        // In production, use google-auth-library to verify the token
-        
-        // For now, we'll return a placeholder that requires proper token verification
-        // You would need to install and use 'google-auth-library' package
-        res.status(501).json({
-            success: false,
-            message: 'Token verification not implemented. Please use OAuth flow.'
+        res.json({
+            success: true,
+            user,
+            isGoogleUser: !!user.googleId
         });
     } catch (error) {
-        console.error('[Google Token Auth] Error:', error);
-        res.status(500).json({ 
-            success: false,
-            message: 'Authentication failed' 
-        });
+        console.error('[Google Current User] Error:', error);
+        res.status(500).json({ success: false, message: 'Failed to get user info' });
     }
 });
 

@@ -1,0 +1,49 @@
+Warning: connect.session() MemoryStore is not
+designed for a production environment, as it will leak
+memory, and will not scale past a single process.
+
+========================================
+   EduCracker Backend Server
+========================================
+
+[Server] Testing database connection...
+[DB] Testing database connection...
+(node:27396) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:27396) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[DB] ✓ Database connected successfully
+
+========================================
+   Server Started Successfully!
+========================================
+[Server] Environment: production
+[Server] Server URL:  http://localhost:5000
+[Server] API URL:    http://localhost:5000/api
+[Server] Health:     http://localhost:5000/api/health
+========================================
+
+[Server] GET /api/syllabus/full
+[Server] GET /api/syllabus/full
+[Server] GET /syllabus.html
+[Server] GET /.well-known/appspecific/com.chrome.devtools.json
+[Server] GET /api/syllabus/boards
+[Server] GET /api/syllabus/boards
+[Server] GET /syllabus.html
+[Server] GET /.well-known/appspecific/com.chrome.devtools.json
+[Server] GET /api/syllabus/boards
+[Server] GET /api/syllabus/boards
+[Server] GET /syllabus.html
+[Server] GET /.well-known/appspecific/com.chrome.devtools.json
+[Server] GET /api/syllabus/boards
+[Server] GET /api/syllabus/boards
+[Server] GET /syllabus.html
+[Server] GET /.well-known/appspecific/com.chrome.devtools.json
+[Server] GET /api/syllabus/boards
+[Server] GET /api/syllabus/boards
+[Server] GET /api/syllabus/full
+[Server] GET /api/syllabus/chapters
+[Server] GET /api/syllabus/formulas
+[Server] GET /api/syllabus/chapters
+[Server] GET /api/syllabus/formulas
+[Server] GET /api/syllabus/full
+[Server] GET /api/syllabus/full

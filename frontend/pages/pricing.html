@@ -492,16 +492,6 @@
             </div>
         </section>
 
-        <!-- Launch Offer -->
-        <div class="pricing-cards">
-            <div class="container">
-                <div class="launch-offer">
-                    <h3>🎉 Launch Offer - Limited Time!</h3>
-                    <p>Get Pro Plan at just <strong>₹199/year</strong> (69% OFF) - Save ₹300!</p>
-                </div>
-            </div>
-        </div>
-
         <!-- Pricing Cards -->
         <section class="pricing-cards">
             <div class="container">
@@ -566,18 +556,17 @@
                         </div>
                     </div>
 
-                    <!-- Pro Plan -->
+                    <!-- Monthly Plan -->
                     <div class="pricing-card pricing-card-premium">
-                        <div class="recommended-badge">Best Value</div>
+                        <div class="recommended-badge">Most Popular</div>
                         <div class="pricing-card-header">
-                            <h3 class="plan-name">🔥 Pro Plan</h3>
-                            <p class="plan-description">For serious exam crackers</p>
+                            <h3 class="plan-name">📅 Monthly Plan</h3>
+                            <p class="plan-description">Flexible monthly subscription</p>
                         </div>
                         <div class="pricing-card-price">
-                            <span class="price-amount"><span class="currency">₹</span>299</span>
-                            <span class="price-period">/year</span>
+                            <span class="price-amount"><span class="currency">₹</span>49</span>
+                            <span class="price-period">/month</span>
                         </div>
-                        <p class="price-savings">⭐ Save 49% vs monthly</p>
                         <ul class="plan-features">
                             <li class="feature-item">
                                 <span class="feature-icon">✓</span>
@@ -613,7 +602,57 @@
                             </li>
                         </ul>
                         <div class="pricing-card-action">
-                            <button class="btn btn-primary btn-full btn-upgrade" data-plan="pro">Upgrade to Pro</button>
+                            <button class="btn btn-primary btn-full btn-upgrade" data-plan="MONTHLY">Subscribe Monthly</button>
+                        </div>
+                    </div>
+
+                    <!-- Yearly Plan -->
+                    <div class="pricing-card pricing-card-premium" style="border-color: #8b5cf6;">
+                        <div class="pricing-card-header">
+                            <h3 class="plan-name">🎯 Yearly Plan</h3>
+                            <p class="plan-description">Best value - Save 33%</p>
+                        </div>
+                        <div class="pricing-card-price">
+                            <span class="price-amount"><span class="currency">₹</span>399</span>
+                            <span class="price-period">/year</span>
+                        </div>
+                        <div class="price-savings">Save ₹189 (33% off)</div>
+                        <ul class="plan-features">
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>Unlimited</strong> AI Notes</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>Unlimited</strong> Mock Tests</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>AI Important Questions</strong> Predictor</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>Exam Booster Mode</strong></span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span><strong>Advanced</strong> analytics</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>Priority fast AI generation</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>All future features included</span>
+                            </li>
+                            <li class="feature-item">
+                                <span class="feature-icon">✓</span>
+                                <span>24/7 Priority support</span>
+                            </li>
+                        </ul>
+                        <div class="pricing-card-action">
+                            <button class="btn btn-primary btn-full btn-upgrade" data-plan="YEARLY">Subscribe Yearly</button>
                         </div>
                     </div>
                 </div>
@@ -623,12 +662,12 @@
         <!-- Feature Comparison -->
         <section class="comparison-section">
             <div class="comparison-container">
-                <h2 class="comparison-title">📋 Free vs Pro Comparison</h2>
+                <h2 class="comparison-title">📋 Free vs Premium Comparison</h2>
                 <div class="comparison-table">
                     <div class="comparison-row comparison-header">
                         <div>Feature</div>
                         <div style="text-align: center">Free</div>
-                        <div style="text-align: center">Pro</div>
+                        <div style="text-align: center">Premium</div>
                     </div>
                     <div class="comparison-row">
                         <div class="comparison-feature">AI Notes Generation</div>
@@ -752,9 +791,9 @@
             <div class="modal-body">
                 <div class="upgrade-summary">
                     <div class="upgrade-plan-icon">🔥</div>
-                    <h4>Pro Plan</h4>
-                    <p class="upgrade-price">₹299/year</p>
-                    <p style="color: #f59e0b; font-weight: 600; margin-bottom: 16px;">⭐ Launch Offer - Save 49%!</p>
+                    <h4>EduCracker Pro Plan</h4>
+                    <p class="upgrade-price" id="modalPrice">₹399/year</p>
+                    <p style="color: #f59e0b; font-weight: 600; margin-bottom: 16px;">⭐ Special Launch Offer - Save 33%!</p>
                     <ul class="upgrade-features-list">
                         <li>✓ Unlimited AI Notes</li>
                         <li>✓ Unlimited Mock Tests</li>
@@ -765,12 +804,12 @@
                     </ul>
                 </div>
                 <div class="upgrade-note">
-                    <p>🎉 This is a demo. No actual payment will be processed.</p>
+                    <p>🔒 Secure payment powered by Stripe</p>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-ghost" id="cancelUpgrade">Cancel</button>
-                <button class="btn btn-primary" id="confirmUpgrade">Confirm Upgrade</button>
+                <button class="btn btn-primary" id="confirmUpgrade">Confirm & Pay</button>
             </div>
         </div>
     </div>
@@ -817,8 +856,8 @@
                     <h4>You've used your free AI notes for today!</h4>
                     <p style="margin: 16px 0;">Upgrade to Pro for unlimited access and never stop learning.</p>
                     <div style="background: #f0f9ff; padding: 16px; border-radius: 12px; margin: 20px 0;">
-                        <p style="font-size: 24px; font-weight: 700; color: #3b82f6; margin: 0;">₹299/year</p>
-                        <p style="color: #10b981; font-weight: 600; margin: 4px 0 0;">Save 49% vs monthly</p>
+                        <p style="font-size: 24px; font-weight: 700; color: #3b82f6; margin: 0;">₹399/year</p>
+                        <p style="color: #10b981; font-weight: 600; margin: 4px 0 0;">Save 33% with yearly plan</p>
                     </div>
                     <ul class="premium-benefits" style="text-align: left;">
                         <li>✓ Unlimited AI Notes</li>
@@ -836,27 +875,61 @@
 
     <script src="../js/app.js"></script>
     <script src="../js/premium.js"></script>
+    <script src="../js/payment.js"></script>
     <script>
-        // Handle upgrade button click
+        // Handle upgrade button click - now uses real payment
         document.querySelectorAll('.btn-upgrade').forEach(button => {
-            button.addEventListener('click', function() {
-                const upgradeModal = document.getElementById('upgradeModal');
-                if (upgradeModal) {
-                    upgradeModal.classList.add('active');
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Check if user is logged in
+                const userId = localStorage.getItem('userId');
+                if (!userId) {
+                    window.location.href = '/login.html?redirect=/pricing.html';
+                    return;
                 }
+                
+                // Use payment API to create checkout session
+                const planType = button.dataset.plan || 'MONTHLY';
+                
+                // Show loading
+                button.textContent = 'Processing...';
+                button.disabled = true;
+                
+                // Create checkout session
+                fetch('/api/payment/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId, planType })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.data.url) {
+                        window.location.href = data.data.url;
+                    } else {
+                        alert('Payment service is currently unavailable. Please try again later.');
+                        button.textContent = 'Subscribe Monthly';
+                        button.disabled = false;
+                    }
+                })
+                .catch(err => {
+                    console.error('Payment error:', err);
+                    alert('Payment service is currently unavailable. Please try again later.');
+                    button.textContent = 'Subscribe Monthly';
+                    button.disabled = false;
+                });
             });
         });
 
-        // Handle confirm upgrade
-        document.getElementById('confirmUpgrade')?.addEventListener('click', function() {
-            // Simulate upgrade success
-            alert('🎉 Demo: Upgrade successful! In production, this would process payment.');
-            const upgradeModal = document.getElementById('upgradeModal');
-            if (upgradeModal) {
-                upgradeModal.classList.remove('active');
+        // Handle confirm upgrade (demo mode fallback)
+        // Initialize payment handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initPaymentHandlers === 'function') {
+                initPaymentHandlers();
             }
-            // Redirect to dashboard
-            window.location.href = 'dashboard.html';
+            if (typeof updateSubscriptionUI === 'function') {
+                updateSubscriptionUI();
+            }
         });
     </script>
 </body>

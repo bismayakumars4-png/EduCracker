@@ -1,0 +1,19 @@
+{
+  "name": "educracker",
+  "version": "1.0.0",
+  "description": "EduCracker - Exam Preparation Platform",
+  "private": true,
+  "scripts": {
+    "dev": "cd backend && npm run dev",
+    "start": "cd backend && npm run start",
+    "backend": "cd backend && npm run dev",
+    "install:all": "cd backend && npm install"
+  },
+  "keywords": [
+    "education",
+    "exam",
+    "learning"
+  ],
+  "author": "EduCracker Team",
+  "license": "MIT"
+}

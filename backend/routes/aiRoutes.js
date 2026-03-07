@@ -9,6 +9,7 @@ const express = require('express');
 const router = express.Router();
 const aiService = require('../services/aiService');
 const { checkAILimit, incrementUsage, getUserPlan, PLAN_LIMITS } = require('../services/subscriptionService');
+const { authenticate, optionalAuth } = require('../middleware/authMiddleware');
 
 // Middleware to check if API key is configured
 const checkApiKey = (req, res, next) => {
@@ -28,13 +29,17 @@ const checkApiKey = (req, res, next) => {
 
 // Middleware to check user plan and usage limits
 const checkUsageLimit = async (req, res, next) => {
-  // For now, allow if no user (demo mode) or user is not provided
-  // In production, this would come from auth middleware
-  const userId = req.body.userId || req.query.userId;
+  // Get user ID from authenticated request
+  const userId = req.userId;
   
   if (!userId) {
-    // Demo mode - allow limited access
-    return next();
+    // No user - require authentication
+    return res.status(401).json({
+      success: false,
+      error: 'Authentication required',
+      code: 'AUTH_REQUIRED',
+      message: 'Please login to use AI features.'
+    });
   }
 
   try {
@@ -71,14 +76,14 @@ const checkUsageLimit = async (req, res, next) => {
 
 // Get AI service status and user usage
 // GET /api/ai/status
-router.get('/status', async (req, res) => {
+router.get('/status', optionalAuth, async (req, res) => {
   const apiKey = process.env.OPENAI_API_KEY;
   const apiKeyConfigured = apiKey && 
                           apiKey !== '' && 
                           apiKey !== 'your_openai_api_key_here';
 
-  // Get user ID from query or header (demo mode)
-  const userId = req.query.userId || req.headers['x-user-id'];
+  // Get user ID from authenticated request
+  const userId = req.userId;
   let usageInfo = null;
 
   if (userId) {

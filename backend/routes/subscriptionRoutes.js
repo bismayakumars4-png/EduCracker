@@ -47,7 +47,7 @@ router.get('/status', async (req, res) => {
 // POST /api/subscription/upgrade
 router.post('/upgrade', async (req, res) => {
   try {
-    const { userId, planType = 'PRO', duration = 365 } = req.body;
+    const { userId, planType = 'PRO', duration = 30 } = req.body;
 
     if (!userId) {
       return res.status(400).json({
@@ -56,7 +56,7 @@ router.post('/upgrade', async (req, res) => {
       });
     }
 
-    // Calculate expiry date
+    // Calculate expiry date based on duration (default 30 days for monthly plans)
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + duration);
 
@@ -68,6 +68,7 @@ router.post('/upgrade', async (req, res) => {
       data: {
         userId: updatedUser.id,
         plan: updatedUser.plan,
+        planType: planType,
         expiresAt: updatedUser.planExpiresAt
       }
     });

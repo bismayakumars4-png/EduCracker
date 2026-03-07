@@ -870,11 +870,15 @@
         // Try to save to backend first
         let savedToBackend = false;
         try {
+            const token = localStorage.getItem('authToken');
+            const headers = { 'Content-Type': 'application/json' };
+            if (token) {
+                headers['Authorization'] = 'Bearer ' + token;
+            }
+            
             const response = await fetch(`${API_BASE}/api/tests/submit`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: headers,
                 body: JSON.stringify({
                     testId: String(window.testData.testId),
                     score: score.marksObtained,

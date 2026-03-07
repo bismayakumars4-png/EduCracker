@@ -11,6 +11,10 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const passport = require('passport');
+const session = require('express-session');
+
+// Load Passport configuration
+require('./config/passport');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +23,19 @@ const PORT = process.env.PORT || 5000;
 // Passport.js Initialization for Google OAuth
 // ========================================
 app.use(passport.initialize());
+
+// Session configuration
+app.use(session({
+    secret: process.env.JWT_SECRET || 'educracker_session_secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
+app.use(passport.session());
 
 // ========================================
 // Static Files Serving (Frontend)
@@ -129,11 +146,20 @@ app.use('/api/ai', require('./routes/aiRoutes'));
 // Subscription routes
 app.use('/api/subscription', require('./routes/subscriptionRoutes'));
 
+// Payment routes (Stripe integration)
+app.use('/api/payment', require('./routes/paymentRoutes'));
+
 // Syllabus routes (Board & Exam preparation)
 app.use('/api/syllabus', require('./routes/syllabusRoutes'));
 
 // Smart Learning routes (weak areas, progress tracking)
 app.use('/api/learning', require('./routes/learningRoutes'));
+
+// Google Drive routes
+app.use('/api/google', require('./routes/googleDriveRoutes'));
+
+// Google Classroom routes
+app.use('/api/classroom', require('./routes/googleClassroomRoutes'));
 
 // Practice routes (flashcards, questions, quick practice)
 app.use('/api/practice', require('./routes/practiceRoutes'));

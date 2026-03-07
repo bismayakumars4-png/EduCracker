@@ -8,21 +8,17 @@
 const express = require('express');
 const router = express.Router();
 const { prisma } = require('../db');
-
-// ========================================
-// Mock User ID (in production, get from session/token)
-// ========================================
-const MOCK_USER_ID = 1;
+const { authenticate } = require('../middleware/authMiddleware');
 
 // ========================================
 // GET /api/dashboard/stats
 // Get dashboard statistics
 // ========================================
-router.get('/stats', async (req, res) => {
+router.get('/stats', authenticate, async (req, res) => {
     try {
         // Get test results for the user
         const testResults = await prisma.testResult.findMany({
-            where: { userId: MOCK_USER_ID },
+            where: { userId: req.userId },
             orderBy: { createdAt: 'desc' }
         });
 
@@ -111,12 +107,12 @@ router.get('/stats', async (req, res) => {
 // GET /api/tests/recent
 // Get recent test results
 // ========================================
-router.get('/tests/recent', async (req, res) => {
+router.get('/tests/recent', authenticate, async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 5;
 
         const recentTests = await prisma.testResult.findMany({
-            where: { userId: MOCK_USER_ID },
+            where: { userId: req.userId },
             orderBy: { createdAt: 'desc' },
             take: limit
         });
@@ -176,11 +172,11 @@ router.get('/tests/recent', async (req, res) => {
 // GET /api/analytics/summary
 // Get analytics summary for dashboard preview
 // ========================================
-router.get('/analytics/summary', async (req, res) => {
+router.get('/analytics/summary', authenticate, async (req, res) => {
     try {
         // Get test results for the user
         const testResults = await prisma.testResult.findMany({
-            where: { userId: MOCK_USER_ID },
+            where: { userId: req.userId },
             orderBy: { createdAt: 'desc' },
             take: 30 // Last 30 tests
         });

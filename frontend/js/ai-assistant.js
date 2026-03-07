@@ -12,10 +12,27 @@ const AIAssistant = {
   // State management
   _loader: null,
 
+  // Get auth token from localStorage
+  _getAuthToken() {
+    return localStorage.getItem('authToken');
+  },
+
+  // Get headers with authentication
+  _getAuthHeaders() {
+    const token = this._getAuthToken();
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) {
+      headers['Authorization'] = 'Bearer ' + token;
+    }
+    return headers;
+  },
+
   // Check if AI service is available
   async checkStatus() {
     try {
-      const response = await fetch(`${this.apiBase}/status`);
+      const response = await fetch(`${this.apiBase}/status`, {
+        headers: this._getAuthHeaders()
+      });
       const data = await response.json();
       return data;
     } catch (error) {
@@ -29,7 +46,7 @@ const AIAssistant = {
     try {
       const response = await fetch(`${this.apiBase}/${endpoint}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: this._getAuthHeaders(),
         body: JSON.stringify(payload)
       });
       return await response.json();

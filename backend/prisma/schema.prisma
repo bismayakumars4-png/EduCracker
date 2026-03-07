@@ -28,6 +28,10 @@ model User {
   avatar    String?
   isActive  Boolean @default(true)
 
+  // Google Drive Tokens
+  googleAccessToken  String?
+  googleRefreshToken String?
+
   // Educational Profile
   board      String? // CBSE, HSE_ODISHA, ICSE, BSE_ODISHA, etc.
   classLevel Int? // 6, 7, 8, 9, 10, 11, 12
@@ -36,6 +40,10 @@ model User {
   // Plan & Subscription
   plan          String    @default("FREE") // FREE, PRO
   planExpiresAt DateTime?
+  
+  // Stripe Payment Information
+  stripeCustomerId    String?
+  stripeSubscriptionId String?
 
   // Usage Tracking (reset daily for free users)
   aiNotesUsedToday   Int      @default(0)

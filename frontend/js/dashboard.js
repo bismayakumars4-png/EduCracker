@@ -26,6 +26,45 @@
     };
 
     // ========================================
+    // Authentication Helper
+    // ========================================
+    
+    /**
+     * Get auth token from localStorage
+     */
+    function getAuthToken() {
+        return localStorage.getItem('authToken');
+    }
+
+    /**
+     * Get headers with authentication
+     */
+    function getAuthHeaders() {
+        const token = getAuthToken();
+        const headers = {
+            'Content-Type': 'application/json'
+        };
+        if (token) {
+            headers['Authorization'] = 'Bearer ' + token;
+        }
+        return headers;
+    }
+
+    /**
+     * Make authenticated fetch request
+     */
+    async function authFetch(url, options = {}) {
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                ...getAuthHeaders(),
+                ...options.headers
+            }
+        });
+        return response;
+    }
+
+    // ========================================
     // DOM Ready State
     // ========================================
     document.addEventListener('DOMContentLoaded', function() {
@@ -142,7 +181,7 @@
      */
     async function loadUserProfile() {
         try {
-            const response = await fetch(API_BASE + ENDPOINTS.profile);
+            const response = await authFetch(API_BASE + ENDPOINTS.profile);
             if (!response.ok) throw new Error('Failed to fetch profile');
             
             const data = await response.json();
@@ -165,7 +204,7 @@
      */
     async function loadPlanStatus() {
         try {
-            const response = await fetch(API_BASE + ENDPOINTS.plan);
+            const response = await authFetch(API_BASE + ENDPOINTS.plan);
             if (!response.ok) throw new Error('Failed to fetch plan');
             
             const data = await response.json();
@@ -184,7 +223,7 @@
      */
     async function loadDashboardStats() {
         try {
-            const response = await fetch(API_BASE + ENDPOINTS.stats);
+            const response = await authFetch(API_BASE + ENDPOINTS.stats);
             if (!response.ok) throw new Error('Failed to fetch stats');
             
             const data = await response.json();
@@ -208,7 +247,7 @@
      */
     async function loadRecentTests() {
         try {
-            const response = await fetch(API_BASE + ENDPOINTS.recentTests);
+            const response = await authFetch(API_BASE + ENDPOINTS.recentTests);
             if (!response.ok) throw new Error('Failed to fetch recent tests');
             
             const data = await response.json();
@@ -226,7 +265,7 @@
      */
     async function loadAnalyticsSummary() {
         try {
-            const response = await fetch(API_BASE + ENDPOINTS.analyticsSummary);
+            const response = await authFetch(API_BASE + ENDPOINTS.analyticsSummary);
             if (!response.ok) throw new Error('Failed to fetch analytics');
             
             const data = await response.json();
@@ -589,7 +628,7 @@
      */
     async function loadAnalyticsForChart() {
         try {
-            const response = await fetch(API_BASE + ENDPOINTS.analyticsSummary);
+            const response = await authFetch(API_BASE + ENDPOINTS.analyticsSummary);
             if (!response.ok) throw new Error('Failed to fetch analytics');
             
             const data = await response.json();

@@ -60,6 +60,150 @@ module.exports = {
   },
 
   // =====================
+  // BSE ODISHA CLASS 6
+  // =====================
+  BSE_ODISHAClass6: {
+    Science: {
+      chapters: [
+        { number: 1, name: "Measurement and Motion", weightage: 10, difficulty: "EASY" },
+        { number: 2, name: "Force and Work", weightage: 12, difficulty: "MEDIUM" },
+        { number: 3, name: "Matter", weightage: 10, difficulty: "EASY" },
+        { number: 4, name: "Energy and its Forms", weightage: 10, difficulty: "MEDIUM" },
+        { number: 5, name: "Light and Shadow", weightage: 8, difficulty: "EASY" },
+        { number: 6, name: "Sound", weightage: 8, difficulty: "EASY" },
+        { number: 7, name: "Living and Non-Living Things", weightage: 12, difficulty: "EASY" },
+        { number: 8, name: "Plants and Animals", weightage: 10, difficulty: "EASY" },
+        { number: 9, name: "Our Environment", weightage: 10, difficulty: "MEDIUM" },
+        { number: 10, name: "Food and Nutrition", weightage: 10, difficulty: "EASY" }
+      ],
+      formulas: []
+    },
+    Mathematics: {
+      chapters: [
+        { number: 1, name: "Number System", weightage: 12, difficulty: "EASY" },
+        { number: 2, name: "Operations on Integers", weightage: 10, difficulty: "MEDIUM" },
+        { number: 3, name: "Factors and Multiples", weightage: 10, difficulty: "MEDIUM" },
+        { number: 4, name: "Fractions and Decimals", weightage: 12, difficulty: "MEDIUM" },
+        { number: 5, name: "Ratio and Proportion", weightage: 10, difficulty: "MEDIUM" },
+        { number: 6, name: "Algebra", weightage: 10, difficulty: "MEDIUM" },
+        { number: 7, name: "Geometry", weightage: 12, difficulty: "MEDIUM" },
+        { number: 8, name: "Mensuration", weightage: 8, difficulty: "MEDIUM" },
+        { number: 9, name: "Data Handling", weightage: 8, difficulty: "EASY" },
+        { number: 10, name: "Symmetry", weightage: 8, difficulty: "EASY" }
+      ],
+      formulas: []
+    },
+    Odia: {
+      chapters: [
+        { number: 1, name: "Gadya Sahitya", weightage: 15, difficulty: "EASY" },
+        { number: 2, name: "Padyapatana", weightage: 15, difficulty: "EASY" },
+        { number: 3, name: "Vyakaran", weightage: 20, difficulty: "MEDIUM" },
+        { number: 4, name: "Letter Writing", weightage: 10, difficulty: "EASY" },
+        { number: 5, name: "Essay Writing", weightage: 15, difficulty: "MEDIUM" },
+        { number: 6, name: "Comprehension", weightage: 15, difficulty: "MEDIUM" },
+        { number: 7, name: "Kahani/Likhit", weightage: 10, difficulty: "EASY" }
+      ],
+      formulas: []
+    },
+    English: {
+      chapters: [
+        { number: 1, name: "Prose", weightage: 20, difficulty: "EASY" },
+        { number: 2, name: "Poetry", weightage: 15, difficulty: "EASY" },
+        { number: 3, name: "Grammar", weightage: 25, difficulty: "MEDIUM" },
+        { number: 4, name: "Letter Writing", weightage: 10, difficulty: "EASY" },
+        { number: 5, name: "Essay Writing", weightage: 15, difficulty: "MEDIUM" },
+        { number: 6, name: "Comprehension", weightage: 15, difficulty: "MEDIUM" }
+      ],
+      formulas: []
+    },
+    "Social Science": {
+      chapters: [
+        { number: 1, name: "History - Ancient India", weightage: 15, difficulty: "EASY" },
+        { number: 2, name: "History - Medieval India", weightage: 10, difficulty: "MEDIUM" },
+        { number: 3, name: "Geography - India", weightage: 15, difficulty: "EASY" },
+        { number: 4, name: "Geography - Physical Features", weightage: 10, difficulty: "MEDIUM" },
+        { number: 5, name: "Civics - Indian Constitution", weightage: 15, difficulty: "MEDIUM" },
+        { number: 6, name: "Civics - Democracy", weightage: 10, difficulty: "EASY" },
+        { number: 7, name: "Odisha History", weightage: 15, difficulty: "EASY" },
+        { number: 8, name: "Odisha Geography", weightage: 10, difficulty: "EASY" }
+      ],
+      formulas: []
+    }
+  },
+
+  // =====================
+  // HSE ODISHA CLASS 6
+  // =====================
+  HSE_ODISHAClass6: {
+    Science: {
+      chapters: [
+        { number: 1, name: "Measurement and Motion", weightage: 10, difficulty: "EASY" },
+        { number: 2, name: "Force and Work", weightage: 12, difficulty: "MEDIUM" },
+        { number: 3, name: "Matter", weightage: 10, difficulty: "EASY" },
+        { number: 4, name: "Energy and its Forms", weightage: 10, difficulty: "MEDIUM" },
+        { number: 5, name: "Light and Shadow", weightage: 8, difficulty: "EASY" },
+        { number: 6, name: "Sound", weightage: 8, difficulty: "EASY" },
+        { number: 7, name: "Living and Non-Living Things", weightage: 12, difficulty: "EASY" },
+        { number: 8, name: "Plants and Animals", weightage: 10, difficulty: "EASY" },
+        { number: 9, name: "Our Environment", weightage: 10, difficulty: "MEDIUM" },
+        { number: 10, name: "Food and Nutrition", weightage: 10, difficulty: "EASY" }
+      ],
+      formulas: []
+    },
+    Mathematics: {
+      chapters: [
+        { number: 1, name: "Number System", weightage: 12, difficulty: "EASY" },
+        { number: 2, name: "Operations on Integers", weightage: 10, difficulty: "MEDIUM" },
+        { number: 3, name: "Factors and Multiples", weightage: 10, difficulty: "MEDIUM" },
+        { number: 4, name: "Fractions and Decimals", weightage: 12, difficulty: "MEDIUM" },
+        { number: 5, name: "Ratio and Proportion", weightage: 10, difficulty: "MEDIUM" },
+        { number: 6, name: "Algebra", weightage: 10, difficulty: "MEDIUM" },
+        { number: 7, name: "Geometry", weightage: 12, difficulty: "MEDIUM" },
+        { number: 8, name: "Mensuration", weightage: 8, difficulty: "MEDIUM" },
+        { number: 9, name: "Data Handling", weightage: 8, difficulty: "EASY" },
+        { number: 10, name: "Symmetry", weightage: 8, difficulty: "EASY" }
+      ],
+      formulas: []
+    },
+    Odia: {
+      chapters: [
+        { number: 1, name: "Gadya Sahitya", weightage: 15, difficulty: "EASY" },
+        { number: 2, name: "Padyapatana", weightage: 15, difficulty: "EASY" },
+        { number: 3, name: "Vyakaran", weightage: 20, difficulty: "MEDIUM" },
+        { number: 4, name: "Letter Writing", weightage: 10, difficulty: "EASY" },
+        { number: 5, name: "Essay Writing", weightage: 15, difficulty: "MEDIUM" },
+        { number: 6, name: "Comprehension", weightage: 15, difficulty: "MEDIUM" },
+        { number: 7, name: "Kahani/Likhit", weightage: 10, difficulty: "EASY" }
+      ],
+      formulas: []
+    },
+    English: {
+      chapters: [
+        { number: 1, name: "Prose", weightage: 20, difficulty: "EASY" },
+        { number: 2, name: "Poetry", weightage: 15, difficulty: "EASY" },
+        { number: 3, name: "Grammar", weightage: 25, difficulty: "MEDIUM" },
+        { number: 4, name: "Letter Writing", weightage: 10, difficulty: "EASY" },
+        { number: 5, name: "Essay Writing", weightage: 15, difficulty: "MEDIUM" },
+        { number: 6, name: "Comprehension", weightage: 15, difficulty: "MEDIUM" }
+      ],
+      formulas: []
+    },
+    "Social Science": {
+      chapters: [
+        { number: 1, name: "History - Ancient India", weightage: 15, difficulty: "EASY" },
+        { number: 2, name: "History - Medieval India", weightage: 10, difficulty: "MEDIUM" },
+        { number: 3, name: "Geography - India", weightage: 15, difficulty: "EASY" },
+        { number: 4, name: "Geography - Physical Features", weightage: 10, difficulty: "MEDIUM" },
+        { number: 5, name: "Civics - Indian Constitution", weightage: 15, difficulty: "MEDIUM" },
+        { number: 6, name: "Civics - Democracy", weightage: 10, difficulty: "EASY" },
+        { number: 7, name: "Odisha History", weightage: 15, difficulty: "EASY" },
+        { number: 8, name: "Odisha Geography", weightage: 10, difficulty: "EASY" }
+      ],
+      formulas: []
+    }
+  },
+
+  // =====================
   // CBSE CLASS 7
   // =====================
   CBSEClass7: {

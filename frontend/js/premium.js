@@ -12,7 +12,8 @@
     // ========================================
     const PLAN_KEYS = {
         USER_PLAN: 'userPlan',
-        PLAN_EXPIRY: 'planExpiry'
+        PLAN_EXPIRY: 'planExpiry',
+        PLAN_TYPE: 'planType'
     };
 
     const PLAN_TYPES = {
@@ -111,22 +112,36 @@
     /**
      * Upgrade user to premium (simulation)
      * @param {function} callback - Callback function after upgrade
+     * @param {string} planType - Optional plan type: 'monthly', 'lunch', or default 'pro'
      */
-    window.upgradeToPremium = function(callback) {
+    window.upgradeToPremium = function(callback, planType) {
         var today = new Date();
         var expiry = new Date(today);
-        expiry.setFullYear(expiry.getFullYear() + 1); // Add 1 year
+        
+        // Determine expiry based on plan type
+        // Default: monthly plans (30 days), lunch offer (30 days)
+        var planDuration = 30; // Default 30 days for monthly plans
+        
+        if (planType === 'monthly') {
+            expiry.setDate(expiry.getDate() + 30); // 30 days for monthly
+        } else if (planType === 'lunch') {
+            expiry.setDate(expiry.getDate() + 30); // 30 days for lunch offer
+        } else {
+            expiry.setFullYear(expiry.getFullYear() + 1); // Default 1 year
+        }
 
         // Store in localStorage
         localStorage.setItem(PLAN_KEYS.USER_PLAN, PLAN_TYPES.PREMIUM);
         localStorage.setItem(PLAN_KEYS.PLAN_EXPIRY, expiry.toISOString());
+        localStorage.setItem(PLAN_KEYS.PLAN_TYPE, planType || 'pro');
 
         // Update UI
         updatePlanUI();
 
         // Show success toast
+        var planName = planType === 'lunch' ? 'Lunch Offer' : (planType === 'monthly' ? 'Monthly Plan' : 'Pro');
         if (typeof showToast === 'function') {
-            showToast('🎉 Premium Activated! Enjoy unlimited access.', 'success', 'Welcome to Premium');
+            showToast('🎉 ' + planName + ' Activated! Enjoy unlimited access.', 'success', 'Welcome to Premium');
         }
 
         // Execute callback if provided
@@ -136,7 +151,7 @@
 
         // Dispatch custom event for other components
         window.dispatchEvent(new CustomEvent('planUpgraded', {
-            detail: { plan: PLAN_TYPES.PREMIUM, expiry: expiry }
+            detail: { plan: PLAN_TYPES.PREMIUM, planType: planType || 'pro', expiry: expiry }
         }));
     };
 
@@ -146,6 +161,7 @@
     window.resetToFree = function() {
         localStorage.setItem(PLAN_KEYS.USER_PLAN, PLAN_TYPES.FREE);
         localStorage.removeItem(PLAN_KEYS.PLAN_EXPIRY);
+        localStorage.removeItem(PLAN_KEYS.PLAN_TYPE);
         updatePlanUI();
 
         if (typeof showToast === 'function') {
@@ -347,24 +363,33 @@
      * Initialize upgrade button click handler
      */
     function initUpgradeButton() {
-        const upgradeBtn = document.querySelector('.btn-upgrade');
+        var upgradeButtons = document.querySelectorAll('.btn-upgrade');
         
-        // Guard: no upgrade button on this page
-        if (!upgradeBtn) return;
+        // Guard: no upgrade buttons on this page
+        if (!upgradeButtons || upgradeButtons.length === 0) return;
         
-        // Prevent duplicate event binding
-        if (upgradeBtn.dataset.upgradeInitialized) return;
-        upgradeBtn.dataset.upgradeInitialized = 'true';
-        
-        upgradeBtn.addEventListener('click', function(e) {
-            // If already premium, don't do anything
-            if (window.isPremium()) {
-                return;
-            }
+        upgradeButtons.forEach(function(upgradeBtn) {
+            // Prevent duplicate event binding
+            if (upgradeBtn.dataset.upgradeInitialized) return;
+            upgradeBtn.dataset.upgradeInitialized = 'true';
             
-            e.preventDefault();
-            const modal = document.getElementById('upgradeModal');
-            openModal(modal);
+            upgradeBtn.addEventListener('click', function(e) {
+                // If already premium, don't do anything
+                if (window.isPremium()) {
+                    return;
+                }
+                
+                e.preventDefault();
+                
+                // Get plan type from data attribute
+                var planType = upgradeBtn.dataset.plan || 'pro';
+                
+                // Store selected plan type for later use
+                window.selectedPlanType = planType;
+                
+                var modal = document.getElementById('upgradeModal');
+                openModal(modal);
+            });
         });
     }
 
@@ -380,9 +405,12 @@
             confirmBtn.disabled = true;
         }
 
+        // Get the selected plan type
+        var planType = window.selectedPlanType || 'pro';
+
         // Simulate API call delay
         setTimeout(function() {
-            // Perform upgrade
+            // Perform upgrade with plan type
             window.upgradeToPremium(function() {
                 // Close modal
                 closeModal(modal);
@@ -392,7 +420,10 @@
                     confirmBtn.textContent = 'Confirm Upgrade';
                     confirmBtn.disabled = false;
                 }
-            });
+                
+                // Clear selected plan type
+                window.selectedPlanType = null;
+            }, planType);
         }, 1000);
     }
 

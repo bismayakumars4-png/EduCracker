@@ -2057,6 +2057,63 @@ ul {
     font-weight: 600;
 }
 
+/* Social Login Buttons */
+.social-divider {
+    display: flex;
+    align-items: center;
+    margin: var(--space-lg) 0;
+}
+
+.social-divider::before,
+.social-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--neutral-200);
+}
+
+.social-divider span {
+    padding: 0 var(--space-md);
+    color: var(--neutral-500);
+    font-size: var(--font-size-sm);
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    border: 1px solid var(--neutral-300);
+    border-radius: var(--radius-lg);
+    background: white;
+    color: var(--neutral-700);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn-social:hover {
+    background: var(--neutral-50);
+    border-color: var(--neutral-400);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-google {
+    border-color: var(--neutral-300);
+}
+
+.btn-google:hover {
+    background: #f8f9fa;
+    border-color: #dadce0;
+}
+
+.google-icon {
+    flex-shrink: 0;
+}
+
 .auth-visual {
     background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
     padding: var(--space-2xl);
