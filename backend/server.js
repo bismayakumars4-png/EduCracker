@@ -72,13 +72,38 @@ app.use(express.static(path.join(__dirname, '../frontend'), {
 // Middleware
 // ========================================
 
-// CORS
-app.use(cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5000'],
+// ========================================
+// CORS Configuration - Dynamic based on environment
+// ========================================
+const corsOptions = {
+    origin: function(origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        // In production, strictly check against allowed origins
+        const allowedOrigins = [
+            'http://localhost:3000',
+            'http://127.0.0.1:3000',
+            'http://localhost:5000',
+            process.env.FRONTEND_URL
+        ].filter(Boolean);
+        
+        // In production, only allow defined origins
+        if (process.env.NODE_ENV === 'production') {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        } else {
+            // In development, allow all origins for easier testing
+            callback(null, true);
+        }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
-}));
+};
+
+app.use(cors(corsOptions));
 
 // Body parser
 app.use(express.json({ limit: '10mb' }));
@@ -223,14 +248,18 @@ async function startServer() {
     }
     
     // Start HTTP server
+    const serverUrl = process.env.NODE_ENV === 'production' 
+        ? `https://${process.env.RENDER_EXTERNAL_URL || 'your-app.onrender.com'}`
+        : `http://localhost:${PORT}`;
+    
     app.listen(PORT, () => {
         console.log('\n========================================');
         console.log('   Server Started Successfully!');
         console.log('========================================');
         console.log(`[Server] Environment: ${process.env.NODE_ENV || 'development'}`);
-        console.log(`[Server] Server URL:  http://localhost:${PORT}`);
-        console.log(`[Server] API URL:    http://localhost:${PORT}/api`);
-        console.log(`[Server] Health:     http://localhost:${PORT}/api/health`);
+        console.log(`[Server] Server URL:  ${serverUrl}`);
+        console.log(`[Server] API URL:    ${serverUrl}/api`);
+        console.log(`[Server] Health:     ${serverUrl}/api/health`);
         console.log('========================================\n');
     });
 }

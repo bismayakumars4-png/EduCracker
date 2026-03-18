@@ -303,7 +303,9 @@ router.get('/auth/google/callback',
             );
 
             // Redirect to frontend with token
-            const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+            const frontendUrl = process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' 
+                ? 'https://your-app.onrender.com' 
+                : 'http://localhost:3000');
             res.redirect(`${frontendUrl}/dashboard.html?token=${token}&googleAuth=true`);
         } catch (error) {
             console.error('[Google OAuth Callback] Error:', error);
