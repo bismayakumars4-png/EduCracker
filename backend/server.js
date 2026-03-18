@@ -5,6 +5,14 @@
  * ========================================
  */
 
+// Suppress Node.js deprecation warnings
+process.on('warning', (warning) => {
+    if (warning.name === 'DeprecationWarning' && 
+        (warning.code === 'DEP0169' || warning.code === 'DEP0040')) {
+        return; // Suppress specific deprecation warnings
+    }
+});
+
 require('dotenv').config();
 
 const express = require('express');
@@ -25,13 +33,18 @@ const PORT = process.env.PORT || 5000;
 app.use(passport.initialize());
 
 // Session configuration
+// Note: For production, consider using connect-mongo or connect-redis for session storage
+// to prevent memory leaks and enable scaling across multiple processes
 app.use(session({
     secret: process.env.JWT_SECRET || 'educracker_session_secret',
     resave: false,
     saveUninitialized: false,
+    name: 'educracker.sid',
     cookie: {
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        httpOnly: true,
+        sameSite: 'lax'
     }
 }));
 
