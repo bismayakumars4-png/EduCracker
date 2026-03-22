@@ -1,6 +1,6 @@
 // ========================================
 // EduCracker Prisma Schema
-// SQLite Database Configuration
+// PostgreSQL Database Configuration (Render)
 // ========================================
 
 // Generator configuration
@@ -10,7 +10,7 @@ generator client {
 
 // Datasource configuration
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
