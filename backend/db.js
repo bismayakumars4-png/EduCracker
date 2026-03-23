@@ -19,28 +19,16 @@ const { PrismaClient } = require('@prisma/client');
 
 const globalForPrisma = globalThis;
 
-// Clear any existing Prisma client to ensure fresh instance
-if (globalForPrisma.prisma) {
-    delete globalForPrisma.prisma;
+// Development: reuse existing instance to prevent 
+// "PrismaClient is not connected to the database" errors
+if (!globalForPrisma.prisma) {
+    console.log('[DB] Creating new Prisma Client instance...');
+    globalForPrisma.prisma = new PrismaClient({
+        log: ['query', 'info', 'warn', 'error'],
+    });
 }
-
-let prisma;
-
-if (process.env.NODE_ENV === 'production') {
-    // Production: create new instance
-    prisma = new PrismaClient();
-} else {
-    // Development: reuse existing instance to prevent 
-    // "PrismaClient is not connected to the database" errors
-    if (!globalForPrisma.prisma) {
-        console.log('[DB] Creating new Prisma Client instance...');
-        globalForPrisma.prisma = new PrismaClient({
-            log: ['query', 'info', 'warn', 'error'],
-        });
-    }
-    prisma = globalForPrisma.prisma;
-    console.log('[DB] Reusing existing Prisma Client instance');
-}
+prisma = globalForPrisma.prisma;
+console.log('[DB] Reusing existing Prisma Client instance');
 
 // ========================================
 // Database Connection Test

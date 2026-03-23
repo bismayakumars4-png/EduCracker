@@ -99,6 +99,15 @@ router.post('/login', async (req, res) => {
             });
         }
 
+        // Validate JWT_SECRET exists
+        if (!process.env.JWT_SECRET) {
+            console.error('[User Routes] JWT_SECRET is not configured');
+            return res.status(500).json({ 
+                success: false,
+                message: 'Server configuration error. Please contact support.' 
+            });
+        }
+
         // Find user
         const user = await prisma.user.findUnique({
             where: { email }

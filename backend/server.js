@@ -144,6 +144,26 @@ app.get('/test', (req, res) => {
     res.send('OK');
 });
 
+// Debug route to test database connection
+app.get('/api/debug/db', async (req, res) => {
+    try {
+        const { testConnection } = require('./db');
+        const connected = await testConnection();
+        res.json({ 
+            success: true, 
+            database: connected ? 'connected' : 'disconnected',
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('[Debug] Database test error:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: error.message,
+            stack: process.env.NODE_ENV === 'production' ? undefined : error.stack
+        });
+    }
+});
+
 // Serve frontend pages from pages folder
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/pages/index.html'));
