@@ -240,11 +240,7 @@ async function startServer() {
     const dbConnected = await testConnection();
     
     if (!dbConnected) {
-        console.error('\n[Server] ✗ Server startup failed: Cannot connect to database');
-        if (process.env.NODE_ENV === 'production') {
-            process.exit(1);
-        }
-        console.warn('[Server] ⚠ Starting server without database connection (development mode)');
+        console.warn('[Server] ⚠ Database connection failed - starting anyway (read-only mode)');
     }
     
     // Start HTTP server
