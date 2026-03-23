@@ -111,6 +111,14 @@ router.post('/login', async (req, res) => {
             });
         }
 
+        // Check if user has a password (Google OAuth users may not have one)
+        if (!user.password) {
+            return res.status(401).json({ 
+                success: false,
+                message: 'Please login with Google or reset your password' 
+            });
+        }
+
         // Check password
         const isValidPassword = await bcrypt.compare(password, user.password);
 
@@ -124,15 +132,9 @@ router.post('/login', async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { userId: user.id, email: user.email },
-            process.env.JWT_SECRET || 'default_secret',
+            process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
         );
-
-        // Update last active date (skip if field doesn't exist in schema)
-        // await prisma.user.update({
-        //     where: { id: user.id },
-        //     data: { lastActiveDate: new Date() }
-        // });
 
         res.json({
             success: true,
@@ -144,7 +146,7 @@ router.post('/login', async (req, res) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 role: user.role,
-                plan: user.plan
+                plan: user.plan || 'FREE'
             }
         });
     } catch (error) {

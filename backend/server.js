@@ -83,6 +83,7 @@ const corsOptions = {
             'http://localhost:3000',
             'http://127.0.0.1:3000',
             'http://localhost:5000',
+            'http://localhost:10000',
             process.env.FRONTEND_URL
         ].filter(Boolean);
         
@@ -91,6 +92,7 @@ const corsOptions = {
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
             } else {
+                console.log('[CORS] Rejected origin:', origin);
                 callback(new Error('Not allowed by CORS'));
             }
         } else {
